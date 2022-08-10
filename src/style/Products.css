@@ -1,0 +1,21 @@
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.product {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product h4 {
+    width: 50%;
+}
+
+.product img {
+    width: 200px;
+    height: auto;
+    justify-self: center;
+}
