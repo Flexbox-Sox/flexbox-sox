@@ -8,8 +8,8 @@ async function buildTables() {
     client.connect();
     console.log('Dropping tables...')
     await client.query(`
-        DROP TABLE IF EXISTS carts,
-        DROP TABLE IF EXISTS products,
+        DROP TABLE IF EXISTS carts;
+        DROP TABLE IF EXISTS products;
         DROP TABLE IF EXISTS users;
     `)
     console.log('Tables dropped!')
