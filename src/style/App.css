@@ -7,7 +7,25 @@
   height: 100%;
 }
 
-.app-container h1 {
-  color: var(--green);
-  padding: 1rem;
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  justify-content: space-evenly;
+  position: sticky;
+  top: 0px;
+  background-color: lightgoldenrodyellow;
+}
+
+nav > * {
+  padding: 10px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0px;
+  background-color: lightgoldenrodyellow;
+  width: 100%;
+  text-align: center;
 }
