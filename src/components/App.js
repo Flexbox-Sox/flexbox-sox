@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Products from './Products';
-
-// getAPIHealth is defined in our axios-services directory index.js
-// you can think of that directory as a collection of api adapters
-// where each adapter fetches specific info from our express server's /api route
 import { getAPIHealth } from '../axios-services';
 import '../style/App.css';
+import SingleProduct from './SingleProduct';
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState('');
   const [products, setProducts] = useState([]);
+  const [singleProductId, setSingleProductId] = useState();
 
   useEffect(() => {
     // follow this pattern inside your useEffect calls:
@@ -24,8 +22,12 @@ const App = () => {
     // second, after you've defined your getter above
     // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
-    setProducts([{name: "Annie Sock", description: "Sock with Annie's Photo all over it!", photo: "https://i.ibb.co/xsP4cDh/annie-sock.jpg", price: 10.99}, {name: 'Lemon Sock', description: "Purple sock with yellow lemons", photo: "https://i.ibb.co/XttpTFd/lemon-sock.jpg", price: 10.99}])
+    setProducts([{id: 1, name: "Annie Sock", description: "Sock with Annie's Photo all over it!", photo: "https://i.ibb.co/xsP4cDh/annie-sock.jpg", price: 5.99}, {id: 2, name: 'Lemon Sock', description: "Purple sock with yellow lemons", photo: "https://i.ibb.co/XttpTFd/lemon-sock.jpg", price: 5.99}])
   }, []);
+
+  useEffect(() => {
+    console.log(singleProductId)
+  },[singleProductId])
 
   return (
     <Router>
@@ -42,8 +44,11 @@ const App = () => {
           </nav>
         </header>
         <main>
-          <Route exact Path='/'>
-            <Products products={products} />
+          <Route exact path='/'>
+            <Products products={products} setSingleProductId={setSingleProductId} />
+          </Route>
+          <Route exact path='/singleProduct'>
+            <SingleProduct singleProductId={singleProductId} products={products} />
           </Route>
         </main>
         <footer>
