@@ -16,6 +16,16 @@ productsRouter.get("/", async(req, res, next) => {
     
 });
 
+productsRouter.get("/:productId", async(req, res, next) => {
+  try {
+    const product = await getProductById();
+    res.send(product)
+    
+  } catch (error) {
+    next(error)
+  }
+})
+
 productsRouter.post("/", requireUser ({requiredParams: ['name', 'price', 'inStock', 'description', 'photo', 'reviews']}), async(req, res, next) => {
 
     try {
@@ -69,8 +79,6 @@ productsRouter.post("/", requireUser ({requiredParams: ['name', 'price', 'inStoc
         updateFields.photo = photo;
       }
 
-
-    
       try {
         const originalProduct = await getProductById(productId);
     
@@ -88,25 +96,15 @@ productsRouter.post("/", requireUser ({requiredParams: ['name', 'price', 'inStoc
       }
     });
 
-
-
-
-
-
-
-
-
-
-
     productsRouter.delete('/:productId', requireUser, async (req, res, next) => {
         const { productId } = req.params;
         try {
             const product = await getProductById(productId);
       
             if (product && product.id === req.user.id) {
-                const updatedProduct = await updateProduct(product.id)
+                const deletedProduct = await deleteProduct(product.id)
       
-                res.send({ product: updatedProduct });
+                res.send({ product: deletedProduct });
             } else {
                 next(product ? {
                     name: 'UnauthorizedUserError',
@@ -121,14 +119,6 @@ productsRouter.post("/", requireUser ({requiredParams: ['name', 'price', 'inStoc
             next({ name, message });
         }
       })
-
-
-
-
-
-
-
-
 
 
 module.exports = productsRouter
