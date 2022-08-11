@@ -17,16 +17,25 @@ async function getAllProducts() {
 
 async function getProductById(productId) {
   try {
-    const {
-      rows: [product],
-    } = await client.query(
-      `
-      SELECT *
+    const { rows: [ product ] } = await client.query(
+      `SELECT *
       FROM products
       where id=$1;
-    `,
-      [productId]
-    );
+    `, [productId]);
+
+    return product;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getProductByName(productName) {
+  try {
+    const { rows: [ product ] } = await client.query(`
+      SELECT *
+      FROM products
+      where name=$1;
+    `, [productName])
 
     return product;
   } catch (error) {
@@ -36,17 +45,12 @@ async function getProductById(productId) {
 
 async function createProduct({ name, price, description, photo }) {
   try {
-    const {
-      rows: [product],
-    } = await client.query(
-      `
-      INSERT INTO products(name, price, description, photo)
+    const { rows: [product] } = await client.query(
+      `INSERT INTO products(name, price, description, photo)
       VALUES ($1, $2, $3, $4)
       ON CONFLICT (name) DO NOTHING
       RETURNING *;
-    `,
-      [name, price, description, photo]
-    );
+    `,[name, price, description, photo]);
 
     return product;
   } catch (error) {
@@ -60,17 +64,12 @@ async function updateProduct({ id, ...fields }) {
     .join(", ");
 
   try {
-    const {
-      rows: [product],
-    } = await client.query(
-      `
-      UPDATE products
+    const {rows: [product] } = await client.query(
+      `UPDATE products
       SET ${setString}
       WHERE id=${id}
       RETURNING *;
-    `,
-      Object.values(fields)
-    );
+    `, Object.values(fields));
 
     return product;
   } catch (error) {
@@ -84,9 +83,7 @@ async function deleteProduct(productId) {
     DELETE FROM products
     WHERE id=$1
     RETURNING *;
-  `,
-    [productId]
-  );
+  `,[productId]);
 }
 
 module.exports = {
@@ -96,4 +93,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  getProductByName
 };
