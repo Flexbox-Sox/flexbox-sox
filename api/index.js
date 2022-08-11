@@ -49,4 +49,11 @@ apiRouter.use("/users", usersRouter);
 apiRouter.use("/products", productsRouter);
 apiRouter.use("/carts", cartsRouter);
 
+apiRouter.use((error, req, res, next) => {
+  res.send({
+      name: error.name,
+      message: error.message
+  });
+});
+
 module.exports = apiRouter;
