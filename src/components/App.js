@@ -4,6 +4,8 @@ import Products from './Products';
 import { getAPIHealth, fetchAllProducts } from '../axios-services';
 import '../style/App.css';
 import SingleProduct from './SingleProduct';
+import Register from './Register';
+import Login from './Login';
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState('');
@@ -45,6 +47,12 @@ const App = () => {
           </Route>
           <Route exact path='/singleProduct'>
             <SingleProduct singleProductId={singleProductId} products={products} />
+          </Route>
+          <Route exact path='/register'>
+            <Register />
+          </Route>
+          <Route exact path='/login'>
+            <Login />
           </Route>
         </main>
         <footer>

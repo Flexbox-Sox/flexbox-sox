@@ -8,16 +8,10 @@ const Products = (props) => {
     const { products, setSingleProductId } = props;
     const history = useHistory();
 
-    let viewProductButtons = [document.getElementsByClassName('view-product')]
-    console.log(viewProductButtons)
-    // for (let i = 0; i < viewProductButtons.length; i++) {
-    //     const button = viewProductButtons[i];
-    //     button.addEventListener('click', () => {
-    //         console.log('hi')
-    //         setSingleProductId(button.dataset.id);
-    //         history.push('/singleProduct');
-    //     });
-    // }
+    const handleClick = (event) => {
+        setSingleProductId(event.target.dataset.id)
+        history.push('/singleProduct')
+    }
 
     return (
         <div>
@@ -33,7 +27,7 @@ const Products = (props) => {
                             <img src={product.photo} alt={product.description}/>
                         </div>
                         <div className='product-buttons'>
-                            <button className='view-product' data-id={product.id}>VIEW SOCK</button>
+                            <button className='view-product' data-id={product.id} onClick={(event) => handleClick(event)}>VIEW SOCK</button>
                             <button className='add-to-cart'><img src="https://i.ibb.co/T807tDQ/addtocart.png" alt="ADD TO CART" /></button>
                         </div>
                     </div>

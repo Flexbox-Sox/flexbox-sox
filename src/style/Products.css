@@ -38,3 +38,26 @@
 .add-to-cart img {
     width: 30px;
 }
+
+.single-product-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.single-product-info p {
+    width: 75%;
+}
+
+.single-product-image {
+    display: flex;
+    justify-content: center;
+}
+
+.single-product-image img {
+    width: 350px;
+    height: auto;
+}
+
+
+
