@@ -4,7 +4,7 @@ import '../style/Products.css';
 const SingleProduct = (props) => {
     const { singleProductId, products } = props;
 
-    const [singleProduct] = products.filter((product) => product.id == singleProductId)
+    const [singleProduct] = products.filter((product) => product.id === Number(singleProductId))
 
     return (
         <div className='single-product-container'>
