@@ -1,8 +1,60 @@
 import React from 'react';
 
 const Register = () => {
+
+    const submitRegistration = async (event) => {
+        const usernameInput = document.getElementById('register-username').value;
+        const password1Input = document.getElementById('register-password1').value;
+        const password2Input = document.getElementById('register-password2').value;
+        const emailInput = document.getElementById('register-email').value;
+
+        let userData = {};
+        event.preventDefault();
+        
+        if (usernameInput === "" || password1Input === "" || password2Input === "" || emailInput === "") {
+            alert("Make sure to fill out each field.");
+        } else if (usernameInput.length < 6 || password1Input.length < 8) {
+            alert("Username must be at least 6 characters long and password must be at least 8 characters long.")
+        } else if (password1Input === password2Input) {
+            userData = {
+                username: usernameInput,
+                password: password1Input,
+                email: emailInput
+            };
+
+            // registerUser(userData)
+            
+        } else {
+            alert("The passwords you entered do not match, try again!")
+        } 
+    }
+
     return (
-        <h2>REGISTER</h2>
+        <div className='register-container'>
+            <h2>REGISTER</h2>
+            <div id="form-container">
+                <form id='register-form'>
+                    <div className="inputs">
+                        <label>Email:</label>
+                        <input id='register-email' type='email' placeholder="Email"></input>
+                        <br />
+                        <label>Username:</label>
+                        <input id='register-username' type='text' placeholder="Create a Username"></input>
+                        <br />
+                        <label>Password:</label>
+                        <input id='register-password1' type='password' placeholder="Create a Password"></input>
+                        <br />
+                        <label>Confirm Password:</label>
+                        <input id='register-password2' type='password' placeholder="Confirm Password"></input>
+                        <br />
+                    </div>
+                    <div className="submit-button">
+                        <button type="submit" onClick={submitRegistration}>SUBMIT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
     )
 }
 
