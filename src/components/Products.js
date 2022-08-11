@@ -8,14 +8,16 @@ const Products = (props) => {
     const { products, setSingleProductId } = props;
     const history = useHistory();
 
-    let viewProductButtons = [...document.getElementsByClassName('view-product')]
-    for (let i = 0; i < viewProductButtons.length; i++) {
-        const button = viewProductButtons[i];
-        button.addEventListener('click', () => {
-            setSingleProductId(button.dataset.id);
-            history.push('/singleProduct');
-        });
-    }
+    let viewProductButtons = [document.getElementsByClassName('view-product')]
+    console.log(viewProductButtons)
+    // for (let i = 0; i < viewProductButtons.length; i++) {
+    //     const button = viewProductButtons[i];
+    //     button.addEventListener('click', () => {
+    //         console.log('hi')
+    //         setSingleProductId(button.dataset.id);
+    //         history.push('/singleProduct');
+    //     });
+    // }
 
     return (
         <div>
