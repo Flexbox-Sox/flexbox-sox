@@ -1,16 +1,10 @@
 const express = require("express");
 const usersRouter = express.Router();
-const {
-  getUserById,
-  getUserByUsername
- 
-} = require("../db/models/user");
-const { JWT_SECRET = "flexboxHotBox" } = process.env;
-
-require("dotenv").config();
+const { getUserById, getUserByUsername } = require("../db/models/user");
+const { JWT_SECRET } = process.env;
 
 //POST/api/users/register
-router.post("/register", async (req, res, next) => {
+usersRouter.post("/register", async (req, res, next) => {
   const { username, password } = req.body;
 
   try {
@@ -45,7 +39,7 @@ router.post("/register", async (req, res, next) => {
 
 // POST /api/users/login
 
-router.post("/login", async (req, res, next) => {
+usersRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
   try {
     const user = await getUser({ username, password });
@@ -71,7 +65,7 @@ router.post("/login", async (req, res, next) => {
 
 // GET /api/users/me
 
-router.get("/me", async (req, res, next) => {
+usersRouter.get("/me", async (req, res, next) => {
   const prefix = "Bearer ";
   const auth = req.header("Authorization");
 
@@ -103,7 +97,7 @@ router.get("/me", async (req, res, next) => {
 
 // GET /api/users/:username
 
-router.get("/:username", async (req, res, next) => {
+usersRouter.get("/:username", async (req, res, next) => {
   const { username } = req.params;
   try {
     const singleUser = await getUserByUsername(username);
