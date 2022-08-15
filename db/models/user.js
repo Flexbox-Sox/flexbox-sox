@@ -1,6 +1,23 @@
 // grab our db client connection to use with our adapters
 const client = require("../client");
 
+async function createUser({ username, password, email}){
+  try {
+    const { rows: [user]} = await client.query(`
+    INSERT INTO users(username, password, email)
+    VALUES($1, $2, $3)
+    ON CONFLICT(email, username) DO NOTHING
+    RETURNING *;
+    `, [username, password, email])
+    return user;
+    
+  } catch (error) {
+    throw error
+    
+  }
+
+}
+
 async function getAllUsers() {
   try {
     const { rows } = await client.query(`
@@ -88,5 +105,6 @@ module.exports = {
   getUserById,
   getUserByUsername,
   updateUser,
-  deleteUser
+  deleteUser,
+  createUser
 };

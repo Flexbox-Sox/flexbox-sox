@@ -6,11 +6,15 @@ import '../style/App.css';
 import SingleProduct from './SingleProduct';
 import Register from './Register';
 import Login from './Login';
+import Logout from './Logout';
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState('');
   const [products, setProducts] = useState([]);
   const [singleProductId, setSingleProductId] = useState();
+  const [ username, setUserName] = useState('')
+  const [token, setToken] = useState('');
+  const [logText, setLogText] = useState('LOGIN')
 
   useEffect(() => {
     const getAPIStatus = async () => {
@@ -37,8 +41,7 @@ const App = () => {
           <nav className='nav'>
             <Link to='/'>HOME</Link>
             <Link to='/account'>ACCOUNT</Link>
-            <Link to='/login'>LOGIN</Link>
-            <Link to='/logout'>LOGOUT</Link>
+            <Link to={logText === "LOGIN" ? "/login" : "/logout"} className='nav-link' id='nav-login'>{logText}</Link>
           </nav>
         </header>
         <main>
@@ -52,7 +55,16 @@ const App = () => {
             <Register />
           </Route>
           <Route exact path='/login'>
-            <Login />
+            <Login 
+            setUserName={setUserName}
+            setToken={setToken}
+            setLogText={setLogText} />
+          </Route>
+          <Route exact path="/logout">
+                    <Logout 
+                        setUserName={setUserName}
+                        setToken={setToken}
+                        setLogText={setLogText} />
           </Route>
         </main>
         <footer>
