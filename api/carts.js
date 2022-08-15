@@ -1,4 +1,11 @@
-const express = require('express');
+const express = require("express");
 const cartsRouter = express.Router();
+const { getAllCarts, createCart, updateCart, deleteCart } = require("../db");
 
-module.exports = cartsRouter
+// GET/api/ cartId
+
+// POST//api/ cartId
+
+// DELETE/ api/ cartid
+
+module.exports = cartsRouter;
