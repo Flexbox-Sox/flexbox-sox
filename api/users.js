@@ -1,36 +1,32 @@
 const express = require("express");
 const usersRouter = express.Router();
 const { getUserById, getUserByUsername } = require("../db/models/user");
+const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
+
 
 //POST/api/users/register
 usersRouter.post("/register", async (req, res, next) => {
-  const { username, password } = req.body;
-
+  const { user } = req.body;
+  console.log(user)
   try {
-    const userGetUser = await getUserByUsername(username);
+    const userGetUser = await getUserByUsername(user.username);
     if (userGetUser) {
       next({
         error: "Error",
         name: "UserExistsError",
-        message: `User ${username} is already taken.`,
+        message: `User ${user.username} is already taken.`,
       });
     }
 
-    if (password.length < 8) {
-      next({
-        error: "Error",
-        name: "ErrorCreatingUser",
-        message: `Password Too Short!`,
-      });
-    }
 
-    const user = await getUserByUsername({ username, password });
-    const token = jwt.sign({ user }, JWT_SECRET);
+    const userObj = { username: user.username, password: user.password, email: user.email}
+    console.log(userObj)
+    const token = jwt.sign(user, JWT_SECRET);
     res.send({
       message: "You are now registered.",
       token: token,
-      user: user,
+      user: userObj,
     });
   } catch ({ error, message }) {
     next({ error, message });

@@ -42,13 +42,6 @@ async function getUserByUsername(username) {
       WHERE username=$1
     `, [ username ]);
 
-    if (!user) {
-      throw {
-        name: "NoUserByThatName",
-        message: "A user with that username does not exist! sorry try again"
-      }
-    }
-
     return user;
   } catch (error) {
     throw error;

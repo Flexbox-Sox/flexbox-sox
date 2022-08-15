@@ -1,6 +1,38 @@
 import React from 'react';
+// import { useHistory } from "react-router-dom";
+const API_URL = 'http://localhost:3000/api'
 
-const Register = () => {
+
+const Register = (props) => {
+
+    // const { setUserName, setAlertMessage, setToken, setLogText } = props;
+    // const history = useHistory();
+    
+    const postUser = async (userData) => {
+        await fetch(`${API_URL}/users/register`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: {
+                    username: userData.username,
+                    password: userData.password,
+                    email: userData.email
+                }
+                })
+        }).then(response => response.json())
+        .then(result => {
+            if (!result.error) {
+               console.log(result)
+            } else {
+                // alert("Error")
+                console.log(result)
+
+            }
+        })
+        .catch(console.error)
+    }
 
     const submitRegistration = async (event) => {
         const usernameInput = document.getElementById('register-username').value;
@@ -22,7 +54,9 @@ const Register = () => {
                 email: emailInput
             };
 
-            // registerUser(userData)
+            // await registerUser(userData);
+            await postUser(userData);
+            
             
         } else {
             alert("The passwords you entered do not match, try again!")
