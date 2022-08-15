@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:3000/api'
 
 
 const Login = (props) => {
-    const { setAlertMessage, setUserName, setToken, setLogText } = props;
+    const {  setUserName, setToken, setLogText } = props;
     const history = useHistory()
     
     const submitLogin = async (event) => {
@@ -36,13 +36,14 @@ const Login = (props) => {
         }).then(response => response.json())
         .then(result => {
             if (!result.error) {
-                setAlertMessage(result.data.message);
-                setToken(result.data.token);
-                setUserName(userData.username)
-                setLogText("LOGOUT");
-                history.push('/');
+                setToken(result.token)
+                setUserName(result.user.username)
+                setLogText("LOGOUT")
+                history.push("/")
+
+                console.log(result)
             } else {
-                setAlertMessage(result.error.message);
+               console.log(result)
             }
         })
         .catch(console.error)

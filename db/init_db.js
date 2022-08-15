@@ -15,10 +15,11 @@ async function buildTables() {
     await client.query(`
         CREATE TABLE users(
           id SERIAL PRIMARY KEY,
-          email VARCHAR(255) UNIQUE NOT NULL,
-          username VARCHAR(255) UNIQUE NOT NULL,
+          email VARCHAR(255) NOT NULL,
+          username VARCHAR(255) NOT NULL,
           password VARCHAR(255) NOT NULL,
-          "isAdmin" BOOLEAN DEFAULT FALSE
+          "isAdmin" BOOLEAN DEFAULT FALSE,
+          UNIQUE (username, email)
         );
 
         CREATE TABLE products(

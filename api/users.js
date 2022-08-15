@@ -1,6 +1,6 @@
 const express = require("express");
 const usersRouter = express.Router();
-const { getUserById, getUserByUsername } = require("../db/models/user");
+const { getUserById, getUserByUsername, createUser } = require("../db/models/user");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
@@ -23,10 +23,11 @@ usersRouter.post("/register", async (req, res, next) => {
     const userObj = { username: user.username, password: user.password, email: user.email}
     console.log(userObj)
     const token = jwt.sign(user, JWT_SECRET);
+    const finalUser = await createUser(userObj) 
     res.send({
       message: "You are now registered.",
       token: token,
-      user: userObj,
+      user: finalUser,
     });
   } catch ({ error, message }) {
     next({ error, message });
@@ -36,17 +37,18 @@ usersRouter.post("/register", async (req, res, next) => {
 // POST /api/users/login
 
 usersRouter.post("/login", async (req, res, next) => {
-  const { username, password } = req.body;
+  const { user } = req.body;
+  console.log(user)
   try {
-    const user = await getUser({ username, password });
-
-    const token = jwt.sign(user, JWT_SECRET);
-
-    if (user) {
+    const userLogin = await getUserByUsername(user.username);
+      
+      
+      if (userLogin && user.password === userLogin.password) {
+      const token = jwt.sign(userLogin, JWT_SECRET);
       res.send({
         message: "you're logged in!",
-        token,
-        user,
+        token: token,
+        user: userLogin,
       });
     } else {
       next({
