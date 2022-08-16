@@ -7,6 +7,8 @@ import SingleProduct from './SingleProduct';
 import Register from './Register';
 import Login from './Login';
 import Logout from './Logout';
+import Admin from './Admin';
+import Carts from './Carts'
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState('');
@@ -40,8 +42,9 @@ const App = () => {
           </div>
           <nav className='nav'>
             <Link to='/'>HOME</Link>
-            {userName ? <Link to='/cart'>MY CART</Link> : null}
+            <Link to='/cart'>MY CART</Link>
             <Link to={logText === "LOGIN" ? "/login" : "/logout"} className='nav-link' id='nav-login'>{logText}</Link>
+            <Link to='/admin'>ADMIN</Link>
           </nav>
         </header>
         <main>
@@ -72,6 +75,12 @@ const App = () => {
                 setUserName={setUserName}
                 setToken={setToken}
                 setLogText={setLogText} />
+          </Route>
+          <Route exact path='/admin'>
+            <Admin />
+          </Route>
+          <Route exact path='/cart'>
+            <Carts />
           </Route>
         </main>
         <footer>
