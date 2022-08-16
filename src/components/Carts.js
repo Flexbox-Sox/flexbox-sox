@@ -1,16 +1,15 @@
 import React from "react";
-import React from 'react';
 import { useHistory,Link } from 'react-router-dom';
-import '../style/Cart.css';
-import {
-    getCartById,
-    createCart,
-    createCartItem,
-    attachCartItemtoCarts,
-    attachProducttoCartItems,
-    attachCartsToUsers,
-    updateCart,
-    deleteCart} from require ('/Final_Capstone/flexbox-sox/db/models/cart');
+// import '../style/Cart.css';
+// import {
+//     getCartById,
+//     createCart,
+//     createCartItem,
+//     attachCartItemtoCarts,
+//     attachProducttoCartItems,
+//     attachCartsToUsers,
+//     updateCart,
+//     deleteCart} from require ('/Final_Capstone/flexbox-sox/db/models/cart');
 
 const Carts=(props)=>{
 const {} = useHistory('');
