@@ -1,9 +1,10 @@
 const express = require("express");
 const cartsRouter = express.Router();
 const { getAllCarts, createCart, updateCart, deleteCart, getCartById } = require("../db");
+const {requireAdmin} = require('./utils');
 
 // GET
-cartsRouter.get("/", async (req, res, next) => {
+cartsRouter.get("/", requireAdmin, async (req, res, next) => {
     try {
         const allCarts = await getAllCarts();
         res.send(allCarts);
@@ -13,7 +14,7 @@ cartsRouter.get("/", async (req, res, next) => {
 })
 
 //GET cartId
-cartsRouter.get("/cartId", async (req, res, next) => {
+cartsRouter.get("/singleCart/:cartId", async (req, res, next) => {
     const { cartId } = req.params;
 
     try {
@@ -27,11 +28,10 @@ cartsRouter.get("/cartId", async (req, res, next) => {
 // POST//api/ cartId
 cartsRouter.post("/", async (req, res, next) => {
     try {
-        const { cart } = req.body;
+        const { userId, sessionId } = req.body;
         const cartObj = { 
-            userId: cart.userId,
-            orderStatus: cart.orderStatus,
-            sessionId: cart.sessionId
+            userId,
+            sessionId
         }
 
         const createdCart = await createCart(cartObj);
@@ -49,7 +49,7 @@ cartsRouter.post("/", async (req, res, next) => {
 })
 
 // PATCH cartId
-cartsRouter.patch("/:cartId", async (req, res, next) => {
+cartsRouter.patch("/singleCart/:cartId", async (req, res, next) => {
     const { cartId } = req.params;
     const { orderStatus, sessionId } = req.body;
     const updateFields = {}
@@ -83,7 +83,7 @@ cartsRouter.patch("/:cartId", async (req, res, next) => {
 })
 
 // DELETE/ api/ cartid
-cartsRouter.delete("/:cartId", async (req, res, next) => {
+cartsRouter.delete("/singleCart/:cartId", async (req, res, next) => {
     const { cartId } = req.params;
     try {
         const cart = await getCartById(cartId);
@@ -103,6 +103,30 @@ cartsRouter.delete("/:cartId", async (req, res, next) => {
     } catch ({name, message}) {
         next({name, message})
     }
+})
+
+cartsRouter.get("/items", (req, res) => {
+    const { cart } = req.session;
+    if (!cart) {
+        res.send("no items to display")
+    } else {
+        res.send(cart)
+    }
+})
+
+cartsRouter.post("/items", (req, res, next) => {
+    const { item, quantity } = req.body;
+    const cartItem = { item, quantity };
+    const { cart } = req.session
+    if (cart) {
+        const { items } = cart;
+        items.push(cartItem)
+    } else {
+        req.session.cart = {
+            items: [cartItem]
+        };
+    }
+    res.send(cartItem);
 })
 
 module.exports = cartsRouter;

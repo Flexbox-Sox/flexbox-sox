@@ -38,7 +38,7 @@ async function getUserById(userId) {
       rows: [user],
     } = await client.query(
       `
-      SELECT id, email, username
+      SELECT id, email, username, "isAdmin"
       FROM users
       WHERE id=$1;
     `,
@@ -89,12 +89,13 @@ async function updateUser(id, fields = {}) {
 }
 
 async function deleteUser(userId) {
-  await client.query(
-    `
+  const { rows: [user] } = await client.query(`
     DELETE FROM users
     WHERE id=$1
     RETURNING *;
   `,[userId]);
+
+  return user;
 }
 
 

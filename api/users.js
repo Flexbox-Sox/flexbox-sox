@@ -1,28 +1,26 @@
 const express = require("express");
 const usersRouter = express.Router();
-const { getUserById, getUserByUsername, createUser } = require("../db/models/user");
+const { getUserById, getUserByUsername, createUser, deleteUser } = require("../db/models/user");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
+const { requireUser } = require('./utils');
 
 
 //POST/api/users/register
 usersRouter.post("/register", async (req, res, next) => {
-  const { user } = req.body;
-  console.log(user)
+  const { username, password, email } = req.body;
   try {
-    const userGetUser = await getUserByUsername(user.username);
+    const userGetUser = await getUserByUsername(username);
     if (userGetUser) {
       next({
         error: "Error",
         name: "UserExistsError",
-        message: `User ${user.username} is already taken.`,
+        message: `User ${username} is already taken.`,
       });
     }
 
-
-    const userObj = { username: user.username, password: user.password, email: user.email}
-    console.log(userObj)
-    const token = jwt.sign(user, JWT_SECRET);
+    const userObj = { username, password, email}
+    const token = jwt.sign(userObj, JWT_SECRET);
     const finalUser = await createUser(userObj) 
     res.send({
       message: "You are now registered.",
@@ -37,13 +35,12 @@ usersRouter.post("/register", async (req, res, next) => {
 // POST /api/users/login
 
 usersRouter.post("/login", async (req, res, next) => {
-  const { user } = req.body;
-  console.log(user)
+  const { username, password } = req.body;
   try {
-    const userLogin = await getUserByUsername(user.username);
+    const userLogin = await getUserByUsername(username);
+    console.log("userLogin: ", userLogin)     
       
-      
-      if (userLogin && user.password === userLogin.password) {
+    if (userLogin && password === userLogin.password) {
       const token = jwt.sign(userLogin, JWT_SECRET);
       res.send({
         message: "you're logged in!",
@@ -63,45 +60,28 @@ usersRouter.post("/login", async (req, res, next) => {
 
 // GET /api/users/me
 
-usersRouter.get("/me", async (req, res, next) => {
-  const prefix = "Bearer ";
-  const auth = req.header("Authorization");
-
-  if (!auth) {
-    res.status(401).send({
-      error: "UnauthorizedUserError",
-      message: "You must be logged in to perform this action",
-      name: "SomeError",
-    });
-  } else if (auth.startsWith(prefix)) {
-    const token = auth.slice(prefix.length);
-
-    try {
-      const { id } = jwt.verify(token, JWT_SECRET);
-      if (id) {
-        req.user = await getUserById(id);
-        res.send(req.user);
-      }
-    } catch ({ name, message }) {
-      next({ name, message });
-    }
-  } else {
-    next({
-      name: "AuthorizationHeaderError",
-      message: `authorization token must start with ${prefix}`,
-    });
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  try {
+    res.send(req.user)
+  } catch ({ name, message }) {
+    next({ name, message });
   }
 });
 
 // GET /api/users/:username
 
-usersRouter.get("/:username", async (req, res, next) => {
+usersRouter.get("/:username", requireUser, async (req, res, next) => {
   const { username } = req.params;
   try {
     const singleUser = await getUserByUsername(username);
 
-    if (req.user.username === username) {
+    if (req.user.username === username || req.user.isAdmin) {
       res.send(singleUser);
+    } else {
+      next({
+        name: "UnauthorizedUserError",
+        message: "You cannot find user information for someone that is not you"
+      })
     }
   } catch (error) {
     next({
@@ -110,5 +90,30 @@ usersRouter.get("/:username", async (req, res, next) => {
     });
   }
 });
+
+usersRouter.delete('/:userId', requireUser, async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    const singleUser = await getUserById(userId);
+    if (!singleUser) {
+      next({
+        name: "UserNotFoundError",
+        message: "There is no user by that id"
+      })
+    }
+
+    if (req.user.id === userId || req.user.isAdmin) {
+      const deletedUser = await deleteUser(userId);
+      res.send(deletedUser);
+    } else {
+      next({
+        name: "UnauthorizedUserError",
+        message: "You cannot delete a user that is not you"
+      })
+    }
+  } catch ({name, message}) {
+    next({name, message})
+  }
+})
 
 module.exports = usersRouter;

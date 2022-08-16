@@ -17,33 +17,30 @@ const Login = (props) => {
             password: password1Input
         };
         
-        await getUserToken(userData)
+        await loginUser(userData)
     }
     
-    const getUserToken = async (userData) => {
-        console.log("This is login User data", userData)
+    const loginUser = async (userData) => {
          await fetch(`${API_URL}/users/login`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                user: {
-                    username: userData.username,
-                    password: userData.password
-                }
+                username: userData.username,
+                password: userData.password
             })
         }).then(response => response.json())
         .then(result => {
+            console.log(result)
             if (!result.error) {
                 setToken(result.token)
                 setUserName(result.user.username)
                 setLogText("LOGOUT")
                 history.push("/")
-
                 console.log(result)
             } else {
-               console.log(result)
+                console.log(result.error.message)
             }
         })
         .catch(console.error)

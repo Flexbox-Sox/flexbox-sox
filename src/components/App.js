@@ -12,7 +12,7 @@ const App = () => {
   const [APIHealth, setAPIHealth] = useState('');
   const [products, setProducts] = useState([]);
   const [singleProductId, setSingleProductId] = useState();
-  const [ username, setUserName] = useState('')
+  const [userName, setUserName] = useState('')
   const [token, setToken] = useState('');
   const [logText, setLogText] = useState('LOGIN')
 
@@ -40,31 +40,38 @@ const App = () => {
           </div>
           <nav className='nav'>
             <Link to='/'>HOME</Link>
-            <Link to='/account'>ACCOUNT</Link>
+            {userName ? <Link to='/cart'>MY CART</Link> : null}
             <Link to={logText === "LOGIN" ? "/login" : "/logout"} className='nav-link' id='nav-login'>{logText}</Link>
           </nav>
         </header>
         <main>
           <Route exact path='/'>
-            <Products products={products} setSingleProductId={setSingleProductId} />
+            <Products 
+              products={products}
+              setSingleProductId={setSingleProductId} />
           </Route>
           <Route exact path='/singleProduct'>
-            <SingleProduct singleProductId={singleProductId} products={products} />
+            <SingleProduct 
+              singleProductId={singleProductId} 
+              products={products} />
           </Route>
           <Route exact path='/register'>
-            <Register />
+            <Register 
+              setUserName={setUserName}
+              setToken={setToken}
+              setLogText={setLogText} />
           </Route>
           <Route exact path='/login'>
             <Login 
-            setUserName={setUserName}
-            setToken={setToken}
-            setLogText={setLogText} />
+              setUserName={setUserName}
+              setToken={setToken}
+              setLogText={setLogText} />
           </Route>
           <Route exact path="/logout">
-                    <Logout 
-                        setUserName={setUserName}
-                        setToken={setToken}
-                        setLogText={setLogText} />
+            <Logout 
+                setUserName={setUserName}
+                setToken={setToken}
+                setLogText={setLogText} />
           </Route>
         </main>
         <footer>

@@ -2,27 +2,37 @@
 const express = require('express');
 const server = express();
 require("dotenv").config();
-
-
-
-// enable cross-origin resource sharing to proxy api requests
-// from localhost:3000 to localhost:4000 in local dev env
 const cors = require('cors');
 server.use(cors());
-
-// create logs for everything
 const morgan = require('morgan');
 server.use(morgan('dev'));
-
-// handle application/json requests
 server.use(express.json());
+const session = require('express-session');
+
+server.use(
+  session({
+    secret: `${process.env.JWT_SECRET}`,
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
+
+// server.get('/', (req, res) => {
+//   console.log(req.session);
+//   console.log("session id ", req.sessionID)
+//   req.session.viewCount += 1;
+//   res.send(`View count at ${req.session.viewCount}`);
+// })
 
 // here's our static files
 const path = require('path');
 server.use(express.static(path.join(__dirname, 'build')));
 
+
 // here's our API
 server.use('/api', require('./api'));
+
 
 // by default serve up the react app if we don't recognize the route
 server.use((req, res, next) => {
@@ -31,6 +41,7 @@ server.use((req, res, next) => {
 
 // bring in the DB connection
 const { client } = require('./db');
+const { appendFile } = require('fs');
 
 // connect to the server
 const PORT = process.env.PORT || 4000;
