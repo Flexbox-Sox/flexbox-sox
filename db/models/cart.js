@@ -2,10 +2,10 @@
 const client = require("../client");
 
 async function getAllCarts() {
-  /* this adapter should fetch a list of users from your db <this sounds like an admin> */
+  /* this adapter should fetch a list of all carts from your db <this sounds like an admin> */
   try {
     const { rows } = await client.query(`
-      SELECT *,
+      SELECT *
       FROM carts; 
     `);
 
@@ -19,16 +19,11 @@ async function getAllCarts() {
 
 async function getCartById(cartId) {
   try {
-    const {
-      rows: [cart],
-    } = await client.query(
-      `
+    const { rows: [cart] } = await client.query(`
       SELECT *
       FROM carts
       WHERE id=$1;
-    `,
-      [cartId]
-    );
+    `, [cartId]);
 
     return cart;
   } catch (error) {
@@ -52,7 +47,7 @@ async function createCart({ userId, sessionId }) {
       rows: [cart],
     } = await client.query(
       `
-          INSERT INTO carts(userId, sessionId)
+          INSERT INTO carts("userId", "sessionId")
           VALUES ($1, $2)
           RETURNING *;
     `,
@@ -67,15 +62,11 @@ async function createCart({ userId, sessionId }) {
 
 async function createCartItem({ productId, priceAtPurchase, cartId }) {
   try {
-    const { rows: cartItem } = client.query(
-      `
-          INSERT INTO "cartItems" ("productId","priceAtPurchase","cartId")
-          VALUES ($1, $2, $3)
-          RETURNING *;
-
-`,
-      [productId, priceAtPurchase, cartId]
-    );
+    const { rows: cartItem } = client.query(`
+      INSERT INTO "cartItems" ("productId","priceAtPurchase","cartId")
+      VALUES ($1, $2, $3)
+      RETURNING *;
+    `,[productId, priceAtPurchase, cartId]);
     return cartItem;
   } catch (error) {
     throw error;
@@ -102,7 +93,6 @@ async function attachCartItemtoCarts() {
   /*Here I'm not sure what are the merge here is either*/
   /*There is already a CartItems row so then we just need to JOIN With products*/
   /*We could merge CartItems with Carts userId */
-
   const carts = [...carts];
   try {
     const attachingItemtoCart = await client.query(`
@@ -119,37 +109,31 @@ async function attachCartsToUsers() {
   }
 }
 
-async function updateCart({ id, ...fields }) {
+async function updateCart(id, fields = {}) {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
 
   try {
-    const {
-      rows: [carts],
-    } = await client.query(
-      `UPDATE carts
+    const { rows: [cart] } = await client.query(`
+      UPDATE carts
       SET ${setString}
       WHERE id=${id}
       RETURNING *;
-    `,
-      Object.values(fields)
-    );
+    `, Object.values(fields));
 
-    return carts;
+    return cart;
   } catch (error) {
     console.log(error);
   }
 }
+
 async function deleteCart(id) {
-  await client.query(
-    `
+  await client.query(`
     DELETE FROM carts
     WHERE id=$1
     RETURNING *;
-  `,
-    [id]
-  );
+  `, [id]);
 }
 
 module.exports = {

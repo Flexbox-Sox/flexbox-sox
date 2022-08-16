@@ -1,9 +1,10 @@
 const express = require("express");
 const cartsRouter = express.Router();
 const { getAllCarts, createCart, updateCart, deleteCart, getCartById } = require("../db");
+const {requireAdmin} = require('./utils');
 
 // GET
-cartsRouter.get("/", async (req, res, next) => {
+cartsRouter.get("/", requireAdmin, async (req, res, next) => {
     try {
         const allCarts = await getAllCarts();
         res.send(allCarts);
@@ -13,7 +14,7 @@ cartsRouter.get("/", async (req, res, next) => {
 })
 
 //GET cartId
-cartsRouter.get("/cartId", async (req, res, next) => {
+cartsRouter.get("/:cartId", async (req, res, next) => {
     const { cartId } = req.params;
 
     try {
@@ -27,11 +28,10 @@ cartsRouter.get("/cartId", async (req, res, next) => {
 // POST//api/ cartId
 cartsRouter.post("/", async (req, res, next) => {
     try {
-        const { cart } = req.body;
+        const { userId, sessionId } = req.body;
         const cartObj = { 
-            userId: cart.userId,
-            orderStatus: cart.orderStatus,
-            sessionId: cart.sessionId
+            userId,
+            sessionId
         }
 
         const createdCart = await createCart(cartObj);

@@ -1,4 +1,5 @@
 const { client, createProduct } = require("./");
+const { createCart, createUser, updateUser } = require("./models");
 
 async function buildTables() {
   try {
@@ -131,9 +132,18 @@ async function populateInitialData() {
       price: 5.99,
     });
 
-    // create useful starting data by leveraging your
-    // Model.method() adapters to seed your db, for example:
-    // const user1 = await User.createUser({ ...user info goes here... })
+    const admin = await createUser({
+      username: "testadmin",
+      password: "password",
+      email: "admin@email.com"
+    })
+    const updateAdmin = await updateUser(1, {isAdmin: true})
+    
+    const cart = await createCart({
+      userId: 1,
+      sessionId: 1
+    })
+    
   } catch (error) {
     throw error;
   }

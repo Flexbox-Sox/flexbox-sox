@@ -1,12 +1,11 @@
 import React from 'react';
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 const API_URL = 'http://localhost:3000/api'
 
 
 const Register = (props) => {
-
-    // const { setUserName, setAlertMessage, setToken, setLogText } = props;
-    // const history = useHistory();
+    const { setUserName, setToken, setLogText } = props;
+    const history = useHistory();
     
     const postUser = async (userData) => {
         await fetch(`${API_URL}/users/register`, {
@@ -15,20 +14,20 @@ const Register = (props) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                user: {
-                    username: userData.username,
-                    password: userData.password,
-                    email: userData.email
-                }
-                })
+                username: userData.username,
+                password: userData.password,
+                email: userData.email
+            })
         }).then(response => response.json())
         .then(result => {
             if (!result.error) {
                console.log(result)
+               setLogText("LOGOUT");
+               setUserName(result.user.username);
+               setToken(result.token);
+               history.push("/")
             } else {
-                // alert("Error")
-                console.log(result)
-
+                console.log(result.error.message)
             }
         })
         .catch(console.error)
@@ -54,9 +53,7 @@ const Register = (props) => {
                 email: emailInput
             };
 
-            // await registerUser(userData);
             await postUser(userData);
-            
             
         } else {
             alert("The passwords you entered do not match, try again!")
