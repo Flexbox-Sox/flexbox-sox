@@ -4,6 +4,7 @@ const { getUserById, getUserByUsername, createUser, deleteUser } = require("../d
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const { requireUser } = require('./utils');
+const bcrypt = require('bcrypt')
 
 
 //POST/api/users/register
@@ -18,14 +19,15 @@ usersRouter.post("/register", async (req, res, next) => {
         message: `User ${username} is already taken.`,
       });
     }
-
-    const userObj = { username, password, email}
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const userObj = { username, password:hashedPassword, email}
     const token = jwt.sign(userObj, JWT_SECRET);
     const finalUser = await createUser(userObj) 
     res.send({
       message: "You are now registered.",
       token: token,
       user: finalUser,
+      
     });
   } catch ({ error, message }) {
     next({ error, message });
@@ -35,12 +37,12 @@ usersRouter.post("/register", async (req, res, next) => {
 // POST /api/users/login
 
 usersRouter.post("/login", async (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, hashedPassword } = req.body;
   try {
     const userLogin = await getUserByUsername(username);
     console.log("userLogin: ", userLogin)     
       
-    if (userLogin && password === userLogin.password) {
+    if (userLogin && hashedPassword === userLogin.hashedPassword) {
       const token = jwt.sign(userLogin, JWT_SECRET);
       res.send({
         message: "you're logged in!",
