@@ -19,11 +19,16 @@ async function getAllCarts() {
 
 async function getCartById(cartId) {
   try {
-    const { rows: [cart] } = await client.query(`
+    const {
+      rows: [cart],
+    } = await client.query(
+      `
       SELECT *
       FROM carts
       WHERE id=$1;
-    `, [cartId]);
+    `,
+      [cartId]
+    );
 
     return cart;
   } catch (error) {
@@ -33,16 +38,7 @@ async function getCartById(cartId) {
 
 // Here we are creating a single cart
 async function createCart({ userId, sessionId }) {
-  /* this needs to be in the indidvidual cart item (not sure what this means)*/
-  /*this adapter we should be able to access products by ProductName and Productid*/
-  /*We need manipulate the cartItems as well*/
-  /*Not sure if we need a JOIN here at all*/
-  /*Join with productId and CartId*/
-  /*Not sure what the right place to join with*/
-
-  /*Or is it a join with CartItems and Carts*/
   try {
-    /*if we create the cart we will need to */
     const {
       rows: [cart],
     } = await client.query(
@@ -62,11 +58,16 @@ async function createCart({ userId, sessionId }) {
 
 async function createCartItem({ productId, priceAtPurchase, cartId }) {
   try {
-    const { rows: cartItem } = client.query(`
+    const {
+      rows: [cartItem],
+    } = client.query(
+      `
       INSERT INTO "cartItems" ("productId","priceAtPurchase","cartId")
       VALUES ($1, $2, $3)
       RETURNING *;
-    `,[productId, priceAtPurchase, cartId]);
+    `,
+      [productId, priceAtPurchase, cartId]
+    );
     return cartItem;
   } catch (error) {
     throw error;
@@ -75,35 +76,47 @@ async function createCartItem({ productId, priceAtPurchase, cartId }) {
 
 /*not sure if we are going to use this yet*/
 async function attachProducttoCartItems() {
-/*select name, ondate from cust join ordr on cust.id = ordr.cust;*/
-/* We need to merge(JOIN) CartItems Id with Products Id*/
-// try {
-//   const { rows: cartItems } = await client.query(`
-//   SELECT cartItems.* products.name AS "cartProductName"
-//   FROM cartItems
-//   JOIN products on cartItems. "cartProductId"= products.id
-//   `);
-//   return cartItems;
-// } catch (error) {
-//   throw error;
-// }
+  try {
+    const {
+      rows: [cartItems],
+    } = await client.query(`
+  SELECT "cartItems".* 
+  FROM "cartItems"
+  JOIN products ON "cartItems"."productId"= products.id
+  `);
+    return cartItems;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function attachCartItemtoCarts() {
-  /*Here I'm not sure what are the merge here is either*/
-  /*There is already a CartItems row so then we just need to JOIN With products*/
-  /*We could merge CartItems with Carts userId */
-  const carts = [...carts];
   try {
-    const attachingItemtoCart = await client.query(`
-           
+    const {
+      rows: [carts],
+    } = await client.query(`
+           SELECT "cartItems".*, carts.*
+            FROM "cartItems"
+            JOIN carts ON "cartItems"."cartId" = carts.id
            `);
-    return attachingItemtoCart;
-  } catch (error) {}
+
+    return carts;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function attachCartsToUsers() {
   try {
+    const {
+      rows: [users],
+    } = client.query(`
+    SELECT carts. *
+    FROM carts
+    JOIN users ON carts."userId"= users.id
+    
+    `);
+    return users;
   } catch (error) {
     console.log(error);
   }
@@ -115,12 +128,17 @@ async function updateCart(id, fields = {}) {
     .join(", ");
 
   try {
-    const { rows: [cart] } = await client.query(`
+    const {
+      rows: [cart],
+    } = await client.query(
+      `
       UPDATE carts
       SET ${setString}
       WHERE id=${id}
       RETURNING *;
-    `, Object.values(fields));
+    `,
+      Object.values(fields)
+    );
 
     return cart;
   } catch (error) {
@@ -129,11 +147,14 @@ async function updateCart(id, fields = {}) {
 }
 
 async function deleteCart(id) {
-  await client.query(`
+  await client.query(
+    `
     DELETE FROM carts
     WHERE id=$1
     RETURNING *;
-  `, [id]);
+  `,
+    [id]
+  );
 }
 
 module.exports = {
