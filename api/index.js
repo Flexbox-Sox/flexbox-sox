@@ -2,7 +2,6 @@ const apiRouter = require("express").Router();
 const usersRouter = require("./users");
 const productsRouter = require("./products");
 const cartsRouter = require("./carts");
-const cartItemsRouter = require("./cartItems");
 const { getUserById } = require("../db");
 const jwt = require("jsonwebtoken");
 const {JWT_SECRET} = process.env
@@ -13,6 +12,12 @@ apiRouter.get("/", (req, res, next) => {
     message: "API is under construction!",
   });
 });
+
+// apiRouter.get("/logout", (req, res, next) => {
+//   req.session.destroy((
+//     console.log("session has been destroyed")
+//   ))
+// })
 
 apiRouter.get("/health", (req, res, next) => {
   res.send({
@@ -49,7 +54,6 @@ apiRouter.use(async (req, res, next) => {
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/products", productsRouter);
 apiRouter.use("/carts", cartsRouter);
-apiRouter.use("/cartItems", cartItemsRouter);
 
 apiRouter.use((error, req, res, next) => {
   res.send({ 

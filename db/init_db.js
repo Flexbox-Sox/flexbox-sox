@@ -37,7 +37,7 @@ async function buildTables() {
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id),
           "orderStatus" VARCHAR(255) DEFAULT 'active',
-          "sessionId" INTEGER
+          "sessionId" VARCHAR(255)
         );
 
         CREATE TABLE "cartItems"(
