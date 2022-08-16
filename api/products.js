@@ -1,6 +1,6 @@
 const express = require('express');
 const productsRouter = express.Router();
-const { requireUser } = require("./utils");
+const { requireUser, requireAdmin } = require("./utils");
 const { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct, getProductByName } = require("../db")
 
 productsRouter.get("/", async(req, res, next) => {
@@ -26,7 +26,7 @@ productsRouter.get("/:productId", async(req, res, next) => {
   }
 })
 
-productsRouter.post("/", requireUser, async(req, res, next) => {
+productsRouter.post("/", requireAdmin, async(req, res, next) => {
     try {
         const { name, price, description, photo } = req.body;
         const existingProduct = await getProductByName(name);
