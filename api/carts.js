@@ -1,9 +1,9 @@
 const express = require("express");
 const cartsRouter = express.Router();
-const { getAllCarts, createCart, updateCart, deleteCart, getCartById } = require("../db");
+const { getAllCarts, createCart, updateCart, deleteCart, getCartById, createCartItem } = require("../db");
 const {requireAdmin} = require('./utils');
 
-// GET
+// GET all carts (admin only)
 cartsRouter.get("/", requireAdmin, async (req, res, next) => {
     try {
         const allCarts = await getAllCarts();
@@ -13,7 +13,7 @@ cartsRouter.get("/", requireAdmin, async (req, res, next) => {
     }
 })
 
-//GET cartId
+//GET a single cart by its id
 cartsRouter.get("/singleCart/:cartId", async (req, res, next) => {
     const { cartId } = req.params;
 
@@ -25,7 +25,7 @@ cartsRouter.get("/singleCart/:cartId", async (req, res, next) => {
     }
 })
 
-// POST//api/ cartId
+// POST create a new cart
 cartsRouter.post("/", async (req, res, next) => {
     try {
         const { userId, sessionId } = req.body;
@@ -48,7 +48,7 @@ cartsRouter.post("/", async (req, res, next) => {
     }
 })
 
-// PATCH cartId
+// PATCH single cart by its id
 cartsRouter.patch("/singleCart/:cartId", async (req, res, next) => {
     const { cartId } = req.params;
     const { orderStatus, sessionId } = req.body;
@@ -82,7 +82,7 @@ cartsRouter.patch("/singleCart/:cartId", async (req, res, next) => {
     }
 })
 
-// DELETE/ api/ cartid
+// DELETE single cart by its id
 cartsRouter.delete("/singleCart/:cartId", async (req, res, next) => {
     const { cartId } = req.params;
     try {
@@ -105,6 +105,7 @@ cartsRouter.delete("/singleCart/:cartId", async (req, res, next) => {
     }
 })
 
+// GET all items in a session cart (not done... doesn't interact with tables at all)
 cartsRouter.get("/items", (req, res) => {
     const { cart } = req.session;
     if (!cart) {
@@ -114,10 +115,13 @@ cartsRouter.get("/items", (req, res) => {
     }
 })
 
-cartsRouter.post("/items", (req, res, next) => {
+// POST new item into cart (not done... doesn't interact with tables at all)
+cartsRouter.post("/items", async (req, res, next) => {
     const { item, quantity } = req.body;
     const cartItem = { item, quantity };
     const { cart } = req.session
+    const sessionId = req.sessionId
+    console.log(sessionId)
     if (cart) {
         const { items } = cart;
         items.push(cartItem)
@@ -125,6 +129,7 @@ cartsRouter.post("/items", (req, res, next) => {
         req.session.cart = {
             items: [cartItem]
         };
+        await createCart({userId: null, sessionId})
     }
     res.send(cartItem);
 })
