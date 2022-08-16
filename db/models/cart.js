@@ -58,16 +58,11 @@ async function createCart({ userId, sessionId }) {
 
 async function createCartItem({ productId, priceAtPurchase, cartId }) {
   try {
-    const {
-      rows: [cartItem],
-    } = client.query(
-      `
-      INSERT INTO "cartItems" ("productId","priceAtPurchase","cartId")
+    const { rows: [cartItem] } = await client.query(`
+      INSERT INTO "cartItems"("productId","priceAtPurchase","cartId")
       VALUES ($1, $2, $3)
       RETURNING *;
-    `,
-      [productId, priceAtPurchase, cartId]
-    );
+    `, [productId, priceAtPurchase, cartId]);
     return cartItem;
   } catch (error) {
     throw error;
@@ -75,16 +70,14 @@ async function createCartItem({ productId, priceAtPurchase, cartId }) {
 }
 
 /*not sure if we are going to use this yet*/
-async function attachProducttoCartItems() {
+async function attachProducttoCartItem() {
   try {
-    const {
-      rows: [cartItems],
-    } = await client.query(`
-  SELECT "cartItems".* 
-  FROM "cartItems"
-  JOIN products ON "cartItems"."productId"= products.id
-  `);
-    return cartItems;
+    const { rows: [cartItem] } = await client.query(`
+      SELECT "cartItems".* 
+      FROM "cartItems"
+      JOIN products ON "cartItems"."productId"= products.id
+    `);
+    return cartItem;
   } catch (error) {
     throw error;
   }
@@ -92,15 +85,38 @@ async function attachProducttoCartItems() {
 
 async function attachCartItemtoCarts() {
   try {
-    const {
-      rows: [carts],
-    } = await client.query(`
-           SELECT "cartItems".*, carts.*
-            FROM "cartItems"
-            JOIN carts ON "cartItems"."cartId" = carts.id
-           `);
+    const { rows: [cart] } = await client.query(`
+      SELECT "cartItems"."productId", "cartItems"."priceAtPurchase"
+      FROM "cartItems"
+      JOIN carts ON "cartItems"."cartId" = carts.id
+    `);
 
-    return carts;
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getAllCartItemsInCart(cartId) {
+  const cart = await getCartById(cartId);
+
+  try {
+    const { rows: cartItems } = await client.query(`
+      SELECT *
+      FROM "cartItems"
+    `)
+    const cartItemsToAdd = cartItems.filter(cartItem => 
+      cartId === cartItem.cartId)
+    console.log("items to add: ", cartItemsToAdd)
+
+    cart.items = [];
+    for (let i = 0; i < cartItemsToAdd.length; i++) {
+      const item = await attachCartItemtoCarts();
+      cart.items.push(item)
+    }
+
+    return cart;
+    
   } catch (error) {
     throw error;
   }
@@ -162,8 +178,8 @@ module.exports = {
   getCartById,
   createCart,
   createCartItem,
-  attachCartItemtoCarts,
-  attachProducttoCartItems,
+  getAllCartItemsInCart,
+  attachProducttoCartItem,
   attachCartsToUsers,
   updateCart,
   deleteCart,

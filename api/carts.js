@@ -1,6 +1,6 @@
 const express = require("express");
 const cartsRouter = express.Router();
-const { getAllCarts, createCart, updateCart, deleteCart, getCartById, createCartItem } = require("../db");
+const { getAllCarts, createCart, updateCart, deleteCart, getCartById, createCartItem, attachCartItemstoCarts, getAllCartItemsInCart } = require("../db");
 const {requireAdmin} = require('./utils');
 
 // GET all carts (admin only)
@@ -105,32 +105,58 @@ cartsRouter.delete("/singleCart/:cartId", async (req, res, next) => {
     }
 })
 
-// GET all items in a session cart (not done... doesn't interact with tables at all)
-cartsRouter.get("/items", (req, res) => {
+// GET all items in a particular session cart
+cartsRouter.get("/items", async (req, res) => {
     const { cart } = req.session;
     if (!cart) {
-        res.send("no items to display")
+        res.send("Cart is empty!")
     } else {
         res.send(cart)
     }
 })
 
-// POST new item into cart (not done... doesn't interact with tables at all)
+// GET all items in a particular cart by id
+cartsRouter.get("/items/:cartId", async (req, res, next) => {
+    const { cartId } = req.params;
+    const cart = await getCartById(cartId)
+    if (!cart) {
+        next({
+            name: "CartNotFound",
+            message: "That cart does not exist"
+        })
+    } else {
+        const newCart = await getAllCartItemsInCart(Number(cartId))
+        res.send(newCart)
+    }
+
+})
+
+// POST new item into cart
 cartsRouter.post("/items", async (req, res, next) => {
-    const { item, quantity } = req.body;
-    const cartItem = { item, quantity };
+    const { productId, priceAtPurchase } = req.body;
+    const cartItem = { productId, priceAtPurchase };
     const { cart } = req.session
-    const sessionId = req.sessionId
-    console.log(sessionId)
+    const sessionId = req.sessionID
+    let userId = null
+
     if (cart) {
         const { items } = cart;
         items.push(cartItem)
+        await createCartItem({ productId, priceAtPurchase, cartId: cart.id})
     } else {
+        
+        if (req.user) {
+            userId = req.user.id
+        }
+        
+        const newCart = await createCart({userId, sessionId});
         req.session.cart = {
+            id: newCart.id,
             items: [cartItem]
         };
-        await createCart({userId: null, sessionId})
+        await createCartItem({ productId, priceAtPurchase, cartId: newCart.id });
     }
+
     res.send(cartItem);
 })
 
