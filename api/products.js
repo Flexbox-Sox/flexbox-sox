@@ -90,24 +90,11 @@ productsRouter.patch('/:productId', requireUser, async (req, res, next) => {
   }
 });
 
-productsRouter.delete('/:productId', requireUser, async (req, res, next) => {
+productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
     const { productId } = req.params;
     try {
-        const product = await getProductById(productId);
-  
-        if (product && product.id === req.user.id) {
-            const deletedProduct = await deleteProduct(product.id)
-  
+            const deletedProduct = await deleteProduct(productId)
             res.send({ product: deletedProduct });
-        } else {
-            next(product ? {
-                name: 'UnauthorizedUserError',
-                message: 'You cannot delete Socks! You are Not an Admin!'
-            } : {
-                name: 'ProductNotFoundError',
-                message: "Those Socks do not exist"
-            });
-        }
   
     } catch ({ name, message }) {
         next({ name, message });

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 const API_URL = 'http://localhost:3000/api'
 
 const Admin = (props) => {
@@ -92,17 +93,60 @@ const Admin = (props) => {
       .catch(console.error)
   }
 
+  const submitDeletedProduct = async (event) => {
+    const productIdInput = document.getElementById("deletedProduct").value;
+    event.preventDefault();
+    
+    let productData = {
+        id: productIdInput
+    };
+    
+    await deleteProduct(productData)
+}
+
+const deleteProduct = async (productData) => {
+     await fetch(`${API_URL}/products/${productData.id}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    }).then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (!result.error) {
+            console.log(result)
+        } else {
+            console.log(result.error.message)
+        }
+    })
+    .catch(console.error)
+}
 
 
+  
+useEffect(() => {
 
-
-
-
-
-
-
-
-
+  const getAllUsers = async () => {
+     await fetch(`${API_URL}/users`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    }).then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (!result.error) {
+            console.log(result)
+        } else {
+            console.log(result.error.message)
+        }
+    })
+    .catch(console.error)
+  }
+  getAllUsers();
+}, [])
 
 
 
@@ -151,7 +195,7 @@ const Admin = (props) => {
                 <form id='editProductForm'>
                     <div className='inputs'>
                     <label>Product ID:</label>
-                  <input id="editProductId" type="text" placeholder="Edit Product ID" required></input>
+                  <input id="editProductId" type="text" placeholder="Enter Product ID" required></input>
                   <br />
                     <label>Product Name:</label>
                   <input id="editProductName" type="text" placeholder="Edit Product Name" required></input>
@@ -181,11 +225,11 @@ const Admin = (props) => {
                   <form id='deleteProductForm'>
                     <div className='inputs'>
                     <label>Product ID:</label>
-                    <input id="producID" type="number" placeholder="Enter ID" required></input>
+                    <input id="deletedProduct" type="text" placeholder="Enter Product ID" required></input>
                     <br />
                     </div>
                       <div className='submit-button'>
-                        {/* <button type="submit" onClick={submitLogin}>SUBMIT</button> */}
+                        <button type="button" onClick={submitDeletedProduct}>SUBMIT</button> 
                       </div>
                   </form>
             </div>

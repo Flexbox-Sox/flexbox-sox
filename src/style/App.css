@@ -23,6 +23,7 @@ nav > * {
 }
 
 footer {
+  display: none;
   position: fixed;
   bottom: 0px;
   background-color: lightgoldenrodyellow;
