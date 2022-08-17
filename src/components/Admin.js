@@ -1,7 +1,105 @@
 import React from "react";
-
+const API_URL = 'http://localhost:3000/api'
 
 const Admin = (props) => {
+    const { token  } = props;
+    
+    
+    const submitProduct = async (event) => {
+        const productNameInput = document.getElementById("productName").value;
+        const productPriceInput = document.getElementById("productPrice").value;
+        const productDescriptionInput = document.getElementById("productDescription").value;
+        const productPhotoInput = document.getElementById("productPhoto").value;
+        event.preventDefault();
+        
+        let productData = {
+            name: productNameInput,
+            price: productPriceInput,
+            description: productDescriptionInput,
+            photo: productPhotoInput
+        };
+        
+        await createProduct(productData)
+    }
+    
+    const createProduct = async (productData) => {
+         await fetch(`${API_URL}/products`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                name: productData.name,
+                price: productData.price,
+                description: productData.description,
+                photo: productData.photo
+            })
+        }).then(response => response.json())
+        .then(result => {
+            console.log(result)
+            if (!result.error) {
+                console.log(result)
+            } else {
+                console.log(result.error.message)
+            }
+        })
+        .catch(console.error)
+    }
+
+    const submitEditedProduct = async (event) => {
+      const productIdInput = document.getElementById("editProductId").value;
+      const productNameInput = document.getElementById("editProductName").value;
+      const productPriceInput = document.getElementById("editProductPrice").value;
+      const productDescriptionInput = document.getElementById("editProductDescription").value;
+      const productPhotoInput = document.getElementById("editProductPhoto").value;
+      event.preventDefault();
+      
+      let productData = {
+          id: productIdInput,
+          name: productNameInput,
+          price: productPriceInput,
+          description: productDescriptionInput,
+          photo: productPhotoInput
+      };
+      
+      await editProduct(productData)
+  }
+  
+  const editProduct = async (productData) => {
+    console.log(productData)
+       await fetch(`${API_URL}/products/${productData.id}`, {
+          method: "PATCH",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+              name: productData.name,
+              price: productData.price,
+              description: productData.description,
+              photo: productData.photo
+          })
+      }).then(response => response.json())
+      .then(result => {
+          console.log(result)
+          if (!result.error) {
+              console.log(result)
+          } else {
+              console.log(result.error.message)
+          }
+      })
+      .catch(console.error)
+  }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -30,7 +128,7 @@ const Admin = (props) => {
                   <input id="productPrice" type="Number" step="0.01" placeholder="Enter Product Price" required></input>
                   <br />
                   <label>Product Description:</label>
-                  <textarea  rows={5} cols={40}
+                  <textarea id="productDescription" rows={5} cols={40}
                           placeholder='Enter Product Description Here'>
                       </textarea>
                   <br />
@@ -40,7 +138,7 @@ const Admin = (props) => {
 
                 </div>
                 <div className="submit-button">
-                  {/* <button type="submit" onClick={createProduct}>SUBMIT</button>  */}
+                   <button type="submit" onClick={submitProduct}>SUBMIT</button>
                 </div>
               </form>
             </div>
@@ -52,23 +150,26 @@ const Admin = (props) => {
             <div id='editProductContainer'>
                 <form id='editProductForm'>
                     <div className='inputs'>
+                    <label>Product ID:</label>
+                  <input id="editProductId" type="text" placeholder="Edit Product ID" required></input>
+                  <br />
                     <label>Product Name:</label>
-                  <input id="productName" type="text" placeholder="Edit Product Name" required></input>
+                  <input id="editProductName" type="text" placeholder="Edit Product Name" required></input>
                   <br />
                   <label>Price: $</label>
-                  <input id="productPrice" type="Number" step="0.01" placeholder="Edit Product Price" required></input>
+                  <input id="editProductPrice" type="Number" step="0.01" placeholder="Edit Product Price" required></input>
                   <br />
                   <label>Product Description:</label>
-                  <textarea  rows={5} cols={40}
+                  <textarea id="editProductDescription" rows={5} cols={40}
                           placeholder='Edit Product Description Here'>
                       </textarea>
                   <br />
                   <label>Product Photo</label>
-                  <input id="productPhoto" type="text" placeholder="Enter Photo URL" required></input>
+                  <input id="editProductPhoto" type="text" placeholder="Enter Photo URL" required></input>
                   <br />
                     </div>
                     <div className='submit-button'>
-                        {/* <button type="submit" onClick={submitLogin}>SUBMIT</button> */}
+                         <button type="submit" onClick={submitEditedProduct}>SUBMIT</button>
                     </div>
                 </form>
             </div>

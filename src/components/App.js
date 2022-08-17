@@ -77,7 +77,9 @@ const App = () => {
                 setLogText={setLogText} />
           </Route>
           <Route exact path='/admin'>
-            <Admin />
+            <Admin 
+            token ={token}
+            />
           </Route>
           <Route exact path='/cart'>
             <Carts />
