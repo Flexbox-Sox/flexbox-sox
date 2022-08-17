@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 export async function getAPIHealth() {
   try {
-    const { data } = await axios.get('/api/health');
+    const { data } = await axios.get("/api/health");
     return data;
   } catch (err) {
     console.error(err);
@@ -12,7 +12,7 @@ export async function getAPIHealth() {
 
 export async function fetchAllProducts() {
   try {
-    const { data } = await axios.get('/api/products');
+    const { data } = await axios.get("/api/products");
     return data;
   } catch (error) {
     console.log(error);
@@ -21,7 +21,7 @@ export async function fetchAllProducts() {
 
 export async function fetchSingleProduct(productId) {
   try {
-    const { data } = await axios.get(`/api/products/${productId}`)
+    const { data } = await axios.get(`/api/products/${productId}`);
     return data;
   } catch (error) {
     console.log(error);
