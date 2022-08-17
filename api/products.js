@@ -59,7 +59,7 @@ productsRouter.patch('/:productId', requireUser, async (req, res, next) => {
   const { name, price, inStock, description, photo } = req.body;
 
   const updateFields = {};
-
+  
   if (name) {
     updateFields.name = name;
   }
@@ -81,17 +81,10 @@ productsRouter.patch('/:productId', requireUser, async (req, res, next) => {
   }
 
   try {
-    const originalProduct = await getProductById(productId);
-
-    if (originalProduct.user.id === req.user.id) {
-      const updatedProduct = await updateProduct(productId, updateFields);
+    
+    const updatedProduct = await updateProduct(productId, updateFields);
       res.send({ product: updatedProduct })
-    } else {
-      next({
-        name: 'UnauthorizedUserError',
-        message: 'You cannot update the products. You are Not an Admin!'
-      })
-    }
+
   } catch ({ name, message }) {
     next({ name, message });
   }

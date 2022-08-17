@@ -58,7 +58,7 @@ async function createProduct({ name, price, description, photo }) {
   }
 }
 
-async function updateProduct({ id, ...fields }) {
+async function updateProduct(id, fields={}) {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
