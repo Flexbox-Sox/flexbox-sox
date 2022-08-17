@@ -13,18 +13,6 @@ cartsRouter.get("/", requireAdmin, async (req, res, next) => {
     }
 })
 
-//GET a single cart by its id
-cartsRouter.get("/singleCart/:cartId", async (req, res, next) => {
-    const { cartId } = req.params;
-
-    try {
-        const cart = await getCartById(cartId);
-        res.send(cart);
-    } catch ({name, message}) {
-        next({name, message})
-    }
-})
-
 // POST create a new cart
 cartsRouter.post("/", async (req, res, next) => {
     try {
@@ -115,8 +103,8 @@ cartsRouter.get("/items", async (req, res) => {
     }
 })
 
-// GET all items in a particular cart by id
-cartsRouter.get("/items/:cartId", async (req, res, next) => {
+// GET a cart by its id including all of its items
+cartsRouter.get("/singleCart/:cartId", async (req, res, next) => {
     const { cartId } = req.params;
     const cart = await getCartById(cartId)
     if (!cart) {
