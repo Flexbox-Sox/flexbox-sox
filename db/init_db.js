@@ -179,6 +179,29 @@ async function populateInitialData() {
       priceAtPurchase: 5.99,
       cartId: 1
     })
+
+    const cart2 = await createCart({
+      userId: 2,
+      sessionId: 2
+    })
+
+    const cart2Item1 = await createCartItem({
+      productId: 7,
+      priceAtPurchase: 5.99,
+      cartId: 2
+    })
+
+    const cart2Item2 = await createCartItem({
+      productId: 10,
+      priceAtPurchase: 5.99,
+      cartId: 2
+    })
+
+    const cart2Item3 = await createCartItem({
+      productId: 10,
+      priceAtPurchase: 5.99,
+      cartId: 2
+    })
     
   } catch (error) {
     throw error;

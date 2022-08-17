@@ -1,8 +1,8 @@
 // grab our db client connection to use with our adapters
 const client = require("../client");
 
+// GET ALL CARTS (ADMIN ONLY)
 async function getAllCarts() {
-  /* this adapter should fetch a list of all carts from your db <this sounds like an admin> */
   try {
     const { rows } = await client.query(`
       SELECT *
@@ -15,8 +15,8 @@ async function getAllCarts() {
     throw error;
   }
 }
-// This is the function that is allowing you to get a single cart by Id
 
+// This is the function that is allowing you to get a single cart by Id, not including items in it
 async function getCartById(cartId) {
   try {
     const {
@@ -56,6 +56,7 @@ async function createCart({ userId, sessionId }) {
   }
 }
 
+// CREATE A CART ITEM (AKA ADD ITEM TO CART)
 async function createCartItem({ productId, priceAtPurchase, cartId }) {
   try {
     const { rows: [cartItem] } = await client.query(`
@@ -69,50 +70,47 @@ async function createCartItem({ productId, priceAtPurchase, cartId }) {
   }
 }
 
-/*not sure if we are going to use this yet*/
-async function attachProducttoCartItem() {
+// JOIN PRODUCTS TO ITEMS
+async function attachProducttoCartItem(productId) {
   try {
     const { rows: [cartItem] } = await client.query(`
-      SELECT "cartItems".* 
+      SELECT "cartItems".id AS "cartItemId", "cartItems"."productId", "cartItems"."priceAtPurchase", products.name, products.description, products.photo 
       FROM "cartItems"
-      JOIN products ON "cartItems"."productId"= products.id
-    `);
+      JOIN products ON "cartItems"."productId"= products.id AND "cartItems"."productId" = $1
+    `, [productId]);
     return cartItem;
   } catch (error) {
     throw error;
   }
 }
 
-async function attachCartItemtoCarts() {
-  try {
-    const { rows: [cart] } = await client.query(`
-      SELECT "cartItems"."productId", "cartItems"."priceAtPurchase"
-      FROM "cartItems"
-      JOIN carts ON "cartItems"."cartId" = carts.id
-    `);
-
-    return cart;
-  } catch (error) {
-    throw error;
-  }
-}
-
+// GET A SINGLE CART BY ITS ID INCLUDING ALL OF ITS ITEMS!
 async function getAllCartItemsInCart(cartId) {
   const cart = await getCartById(cartId);
 
   try {
+    const { rows: products } = await client.query(`
+      SELECT *
+      FROM products
+    `)
+
     const { rows: cartItems } = await client.query(`
       SELECT *
       FROM "cartItems"
     `)
+
     const cartItemsToAdd = cartItems.filter(cartItem => 
       cartId === cartItem.cartId)
-    console.log("items to add: ", cartItemsToAdd)
-
+      
     cart.items = [];
     for (let i = 0; i < cartItemsToAdd.length; i++) {
-      const item = await attachCartItemtoCarts();
-      cart.items.push(item)
+      const currentItemId = cartItemsToAdd[i].id
+      const productsToAdd = products.filter(product => 
+        cartItemsToAdd[i].productId === product.id)
+      console.log(cartItemsToAdd[i])
+      console.log(productsToAdd);
+      const productInfo = await attachProducttoCartItem(cartItemsToAdd[i].productId)
+      cart.items.push(productInfo)
     }
 
     return cart;
@@ -122,6 +120,7 @@ async function getAllCartItemsInCart(cartId) {
   }
 }
 
+// HAVE NOT USED THIS YET... 
 async function attachCartsToUsers() {
   try {
     const {
@@ -138,6 +137,7 @@ async function attachCartsToUsers() {
   }
 }
 
+// UPDATE A CART GIVEN ITS CART ID
 async function updateCart(id, fields = {}) {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
@@ -162,6 +162,7 @@ async function updateCart(id, fields = {}) {
   }
 }
 
+// DELETE A CART GIVEN ITS ID
 async function deleteCart(id) {
   await client.query(
     `
