@@ -19,36 +19,42 @@ async function getAllCarts() {
 // This is the function that is allowing you to get a single cart by Id, not including items in it
 async function getCartById(cartId) {
   try {
-    const {
-      rows: [cart],
-    } = await client.query(
-      `
+    const { rows: [cart] } = await client.query(`
       SELECT *
       FROM carts
       WHERE id=$1;
-    `,
-      [cartId]
-    );
+    `, [cartId]);
 
     return cart;
   } catch (error) {
-    console.log("Error getting Cart BY ID");
+      throw error;
+    }
+}
+
+// get a cart by a user id
+async function getCartByUser(userId) {
+  try {
+    const { rows: carts } = await client.query(`
+      SELECT *
+      FROM carts
+      WHERE "userId"=$1;
+    `, [userId]);
+
+    return carts;
+  } catch (error) {
+    throw error;
   }
 }
 
 // Here we are creating a single cart
 async function createCart({ userId, sessionId }) {
   try {
-    const {
-      rows: [cart],
-    } = await client.query(
-      `
-          INSERT INTO carts("userId", "sessionId")
-          VALUES ($1, $2)
-          RETURNING *;
-    `,
-      [userId, sessionId]
-    );
+    const { rows: [cart] } = await client.query(`
+      INSERT INTO carts("userId", "sessionId")
+      VALUES ($1, $2)
+      RETURNING *;
+    `,[userId, sessionId]);
+
     return cart;
   } catch (error) {
     console.log(error);
@@ -89,11 +95,6 @@ async function getAllCartItemsInCart(cartId) {
   const cart = await getCartById(cartId);
 
   try {
-    const { rows: products } = await client.query(`
-      SELECT *
-      FROM products
-    `)
-
     const { rows: cartItems } = await client.query(`
       SELECT *
       FROM "cartItems"
@@ -101,20 +102,14 @@ async function getAllCartItemsInCart(cartId) {
 
     const cartItemsToAdd = cartItems.filter(cartItem => 
       cartId === cartItem.cartId)
-      
+          
     cart.items = [];
     for (let i = 0; i < cartItemsToAdd.length; i++) {
-      const currentItemId = cartItemsToAdd[i].id
-      const productsToAdd = products.filter(product => 
-        cartItemsToAdd[i].productId === product.id)
-      console.log(cartItemsToAdd[i])
-      console.log(productsToAdd);
       const productInfo = await attachProducttoCartItem(cartItemsToAdd[i].productId)
       cart.items.push(productInfo)
     }
 
     return cart;
-    
   } catch (error) {
     throw error;
   }
@@ -177,6 +172,7 @@ async function deleteCart(id) {
 module.exports = {
   getAllCarts,
   getCartById,
+  getCartByUser,
   createCart,
   createCartItem,
   getAllCartItemsInCart,
