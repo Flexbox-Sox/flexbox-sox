@@ -1,12 +1,22 @@
 const express = require("express");
 const usersRouter = express.Router();
-const { getUserById, getUserByUsername, createUser, deleteUser } = require("../db/models/user");
+const { getUserById, getUserByUsername, createUser, deleteUser, getAllUsers } = require("../db/models/user");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const { requireUser } = require('./utils');
 const bcrypt = require('bcrypt')
 
 
+usersRouter.get("/", async(req, res, next) => {
+  try {
+      const AllUsers = await getAllUsers();
+      res.send(AllUsers);
+
+  } catch (error) {
+      next(error)
+  }
+  
+});
 //POST/api/users/register
 usersRouter.post("/register", async (req, res, next) => {
   const { username, password, email } = req.body;
