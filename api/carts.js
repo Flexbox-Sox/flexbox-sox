@@ -114,27 +114,29 @@ cartsRouter.post("/items", async (req, res, next) => {
         const { items } = cart;
         items.push(cartItem)
         await createCartItem({ productId, priceAtPurchase, cartId: cart.id})
-    } else if (req.user) {        
+    } else if (req.user) { 
         const userCartArray = await getCartByUser(req.user.id)
-        if (userCartArray) {
-            const userCart = userCartArray.filter(userCart =>
-                userCart.orderStatus === "active")
-            if (userCart) {
+        if (userCartArray.length) {
+            const userCart = userCartArray.find(userCart =>
+            userCart.orderStatus === "active")
+            if (userCart.items) {
                 userCart.items.push(cartItem)
                 await createCartItem({ productId, priceAtPurchase, cartId: userCart.id})
             } else {
-                userId = req.user.id
-                const newCart = await createCart({userId, sessionId});
-                req.session.cart = {
-                    id: newCart.id,
-                    items: [cartItem]
-                };
-                await createCartItem({ productId, priceAtPurchase, cartId: newCart.id });
+                userCart.items = cartItem
+                await createCartItem({ productId, priceAtPurchase, cartId: userCart.id})
             }
+        } else {
+            userId = req.user.id
+            const newCart = await createCart({userId, sessionId});
+            req.session.cart = {
+                id: newCart.id,
+                items: [cartItem]
+            };
+            await createCartItem({ productId, priceAtPurchase, cartId: newCart.id });
         }
-    } else {
-
     }
+
     res.send(cartItem);
 })
 

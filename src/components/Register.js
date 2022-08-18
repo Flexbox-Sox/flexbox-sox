@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:3000/api'
 
 
 const Register = (props) => {
-    const { setUserName, setToken, setLogText } = props;
+    const { setUserName, setToken, setLogText, setAlert } = props;
     const history = useHistory();
     
     const postUser = async (userData) => {
@@ -21,13 +21,13 @@ const Register = (props) => {
         }).then(response => response.json())
         .then(result => {
             if (!result.error) {
-               console.log(result)
-               setLogText("LOGOUT");
-               setUserName(result.user.username);
-               setToken(result.token);
-               history.push("/")
+                setAlert(result.message)
+                setLogText("LOGOUT");
+                setUserName(result.user.username);
+                setToken(result.token);
+                history.push("/")
             } else {
-                console.log(result.error.message)
+                setAlert(result.error.message)
             }
         })
         .catch(console.error)
