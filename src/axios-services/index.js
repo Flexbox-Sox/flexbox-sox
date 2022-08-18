@@ -58,3 +58,12 @@ export async function addSingleProductToCart(productId, token) {
     console.log(error)
   }
 }
+
+export async function logoutUser() {
+  try {
+    const {data} = await axios.get('/api/users/logout')
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}

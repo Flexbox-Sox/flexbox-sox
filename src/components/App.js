@@ -118,8 +118,6 @@ const App = () => {
           </Route>
           <Route exact path="/checkout">
             <Checkout 
-              token={token}
-              cart={cart}
               setAlert={setAlert} />
           </Route>
         </main>

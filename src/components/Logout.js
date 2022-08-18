@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { logoutUser } from "../axios-services";
 
 
 const Logout = (props) => {
@@ -11,6 +12,7 @@ const Logout = (props) => {
         setUserName("");
         setAdmin(false);
         setLogText("LOGIN")
+        logoutUser()
         history.push('/')
         setAlert("You have logged out.")
     },[])

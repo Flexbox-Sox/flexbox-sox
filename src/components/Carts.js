@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 const API_URL = 'http://localhost:3000/api'
 
@@ -50,6 +49,7 @@ const Carts = (props) => {
       <h1>MY CART</h1>
       { cart.items ? <div className='cart-container'>
                 {cart.items.map((item, index) => {
+                  console.log(item)
                     return(
                     <div className='item' key={index}>
                         <div className='item-info'>
