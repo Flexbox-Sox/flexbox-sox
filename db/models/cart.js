@@ -46,6 +46,21 @@ async function getCartByUser(userId) {
   }
 }
 
+async function getCartBySessionId(sessionId) {
+  try {
+    const { rows: [cart] } = await client.query(`
+      SELECT *
+      FROM carts
+      WHERE "sessionId"=$1;
+    `, [sessionId]);
+
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 // Here we are creating a single cart
 async function createCart({ userId, sessionId }) {
   try {
@@ -180,6 +195,7 @@ module.exports = {
   getAllCarts,
   getCartById,
   getCartByUser,
+  getCartBySessionId,
   createCart,
   createCartItem,
   getAllCartItemsInCart,

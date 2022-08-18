@@ -13,7 +13,7 @@ server.use(
   session({
     secret: `${process.env.JWT_SECRET}`,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
   })
 );
 

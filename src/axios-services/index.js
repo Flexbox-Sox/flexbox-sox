@@ -27,3 +27,34 @@ export async function fetchSingleProduct(productId) {
     console.log(error);
   }
 }
+
+export async function addSingleProductToCart(productId, token) {
+  try {
+    const product = await fetchSingleProduct(productId)
+    if (token) {
+      await axios.post(`/api/carts/singleCart`, {productId: productId, priceAtPurchase: product.price}, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(function (response) {
+        console.log(response)
+      }).catch(function (error) {
+        console.log(error)
+      })
+    } else {
+      await axios.post(`/api/carts/singleCart`, {productId: productId, priceAtPurchase: product.price}, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(function (response) {
+        console.log(response)
+      }).catch(function (error) {
+        console.log(error)
+      })
+    }
+
+  } catch (error) {
+    console.log(error)
+  }
+}

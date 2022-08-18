@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+
 const API_URL = 'http://localhost:3000/api'
 
 
@@ -30,6 +32,7 @@ const Carts = (props) => {
           .then((response) => response.json())
           .then((result) => {
             if (!result.error) {
+              console.log(result)
               setCart(result)
             } else {
               setAlert(result.error.message)
@@ -41,14 +44,6 @@ const Carts = (props) => {
     
     fetchCart();
   }, []);
-
-  //Here I want to have the purchase button setup
-  //   const checkout = async (event) => {
-  //   };
-
-  //   //Here I want to have the delete purhcase button to delete cart
-  //   const deleteCart = async (event) => {
-  //   };
 
   return (
     <div>
@@ -73,7 +68,7 @@ const Carts = (props) => {
                 )})}
             </div> : <div>Cart is empty!</div>}
           <div>
-            <button>CHECKOUT</button>
+            <a href="/checkout">GO TO CHECKOUT</a>
           </div>
     </div>
   )

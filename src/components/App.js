@@ -13,6 +13,7 @@ import Admin from "./Admin";
 import Carts from "./Carts";
 import Alert, {showAlert} from "./Alert";
 import Account from "./Account";
+import Checkout from "./Checkout";
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -62,6 +63,7 @@ const App = () => {
             <Products
               products={products}
               setSingleProductId={setSingleProductId}
+              token={token}
             />
           </Route>
           <Route exact path="/singleProduct">
@@ -112,6 +114,12 @@ const App = () => {
               token={token}
               cart={cart}
               setCart={setCart}
+              setAlert={setAlert} />
+          </Route>
+          <Route exact path="/checkout">
+            <Checkout 
+              token={token}
+              cart={cart}
               setAlert={setAlert} />
           </Route>
         </main>
