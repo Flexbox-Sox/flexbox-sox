@@ -1,6 +1,6 @@
 const express = require("express");
 const cartsRouter = express.Router();
-const { getAllCarts, createCart, updateCart, deleteCart, getCartById, createCartItem, getAllCartItemsInCart, getCartByUser } = require("../db");
+const { getAllCarts, createCart, updateCart, deleteCart, getCartById, createCartItem, getAllCartItemsInCart, getCartByUser, getCartBySessionId } = require("../db");
 const {requireAdmin} = require('./utils');
 
 // GET all carts (admin only)
@@ -82,33 +82,38 @@ cartsRouter.get("/items", async (req, res) => {
 
 // GET a cart by its id including all of its items
 cartsRouter.get("/singleCart", async (req, res, next) => {
-    const { sessionCart } = req.session
+    const sessionId = req.sessionID
+    console.log("sessionId:", sessionId)
+    const sessionCart = await getCartBySessionId(sessionId)
+    console.log("sessionCart", sessionCart)
     let userCart = undefined
+
     if (req.user) {
         const userCartArray = await getCartByUser(req.user.id)
         userCart = userCartArray.find(userCart => userCart.orderStatus === "active")
     }
 
     if (!sessionCart && !userCart) {
-        const newCart = await createCart({userId: null, sessionId: req.sessionID})
+        const newCart = await createCart({userId: null, sessionId})
         res.send(newCart)
     } else if (!sessionCart) {
-        console.log(userCart.id)
         const newCart = await getAllCartItemsInCart(Number(userCart.id))
         res.send(newCart)
     } else {
+        console.log(sessionCart.id)
         const newCart = await getAllCartItemsInCart(Number(sessionCart.id))
         res.send(newCart)
     }
 })
 
 // POST new item into cart and if no cart exists creates a new cart
-cartsRouter.post("/items", async (req, res, next) => {
+cartsRouter.post("/singleCart", async (req, res, next) => {
     const { productId, priceAtPurchase } = req.body;
     const cartItem = { productId, priceAtPurchase };
-    const { sessionCart } = req.session
     const sessionId = req.sessionID
     let userId = null
+    const sessionCart = await getCartBySessionId(sessionId)
+    console.log("sessionCart", sessionCart)
 
     if (sessionCart) {
         const { items } = cart;
