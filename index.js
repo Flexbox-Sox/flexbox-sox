@@ -17,14 +17,6 @@ server.use(
   })
 );
 
-
-// server.get('/', (req, res) => {
-//   console.log(req.session);
-//   console.log("session id ", req.sessionID)
-//   req.session.viewCount += 1;
-//   res.send(`View count at ${req.session.viewCount}`);
-// })
-
 // here's our static files
 const path = require('path');
 server.use(express.static(path.join(__dirname, 'build')));

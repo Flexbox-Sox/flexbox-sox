@@ -12,8 +12,8 @@ const Products = (props) => {
         history.push('/singleProduct')
     }
 
-    const addToCart = (event) => {
-        addSingleProductToCart(event.target.dataset.id, token)
+    const addToCart = async (event) => {
+        await addSingleProductToCart(event.target.dataset.id, token)
     }
 
     return (

@@ -17,6 +17,20 @@ usersRouter.get("/", async(req, res, next) => {
   }
   
 });
+
+usersRouter.get("/logout", async (req, res, next) => {
+  try {
+    req.session.destroy(
+      console.log("session destroyed")
+    )
+
+    req.user = null
+    res.send("You have logged out")
+  } catch (error) {
+    next(error)
+  }
+})
+
 //POST/api/users/register
 usersRouter.post("/register", async (req, res, next) => {
   const { username, password, email } = req.body;
