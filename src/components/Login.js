@@ -2,9 +2,8 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 const API_URL = 'http://localhost:3000/api'
 
-
 const Login = (props) => {
-    const {  setUserName, setToken, setLogText } = props;
+    const {  setUserName, setToken, setLogText, setAlert, setAdmin } = props;
     const history = useHistory()
     
     const submitLogin = async (event) => {
@@ -32,15 +31,15 @@ const Login = (props) => {
             })
         }).then(response => response.json())
         .then(result => {
-            console.log(result)
             if (!result.error) {
                 setToken(result.token)
                 setUserName(result.user.username)
+                setAdmin(result.user.isAdmin)
                 setLogText("LOGOUT")
                 history.push("/")
-                console.log(result)
+                setAlert(result.message)
             } else {
-                console.log(result.error.message)
+                setAlert(result.error.message)
             }
         })
         .catch(console.error)

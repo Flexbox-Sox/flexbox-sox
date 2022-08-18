@@ -44,7 +44,8 @@ async function buildTables() {
           id SERIAL PRIMARY KEY,
           "productId" INTEGER REFERENCES products(id),
           "priceAtPurchase" NUMERIC DEFAULT 0.00,
-          "cartId" INTEGER REFERENCES carts(id) 
+          "cartId" INTEGER REFERENCES carts(id),
+          quantity INTEGER DEFAULT 1
         );
 
     `);

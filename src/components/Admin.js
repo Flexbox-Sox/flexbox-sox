@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 const API_URL = 'http://localhost:3000/api'
 
 const Admin = (props) => {
-    const { token  } = props;
+    const { token, setAlert, users, setUsers } = props;
     
     
     const submitProduct = async (event) => {
@@ -38,11 +38,10 @@ const Admin = (props) => {
             })
         }).then(response => response.json())
         .then(result => {
-            console.log(result)
             if (!result.error) {
-                console.log(result)
+                setAlert(result.message)
             } else {
-                console.log(result.error.message)
+                setAlert(result.error.message)
             }
         })
         .catch(console.error)
@@ -85,9 +84,9 @@ const Admin = (props) => {
       .then(result => {
           console.log(result)
           if (!result.error) {
-              console.log(result)
+              setAlert(result.message)
           } else {
-              console.log(result.error.message)
+              setAlert(result.error.message)
           }
       })
       .catch(console.error)
@@ -115,9 +114,9 @@ const deleteProduct = async (productData) => {
     .then(result => {
         console.log(result)
         if (!result.error) {
-            console.log(result)
+            setAlert(result.message)
         } else {
-            console.log(result.error.message)
+            setAlert(result.error.message)
         }
     })
     .catch(console.error)
@@ -136,27 +135,17 @@ useEffect(() => {
         },
     }).then(response => response.json())
     .then(result => {
-        console.log(result)
         if (!result.error) {
-            console.log(result)
+            setUsers(result)
+            console.log(users)
         } else {
-            console.log(result.error.message)
+            setAlert(result.error.message)
         }
     })
     .catch(console.error)
   }
   getAllUsers();
 }, [])
-
-
-
-
-
-
-
-
-
-
 
   return (
       <div className="AdminContainer">
