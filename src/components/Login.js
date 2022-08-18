@@ -58,8 +58,8 @@ const Login = (props) => {
                         <input id='login-password' type='password' placeholder="Enter Password" required></input>
                         <br />
                     </div>
-                    <div className='submit-button'>
-                        <button type="submit" onClick={submitLogin}>SUBMIT</button>
+                    <div>
+                        <button className='submit-button' type="submit" onClick={submitLogin}>SUBMIT</button>
                     </div>
                 </form>
                 <div id="register-link-container">
