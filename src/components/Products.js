@@ -14,10 +14,7 @@ const Products = (props) => {
 
     const addToCart = (event) => {
         addSingleProductToCart(event.target.dataset.id, token)
-        history.push('/cart')
     }
-    
-    
 
     return (
         <div>

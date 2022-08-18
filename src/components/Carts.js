@@ -32,7 +32,7 @@ const Carts = (props) => {
           .then((response) => response.json())
           .then((result) => {
             if (!result.error) {
-              console.log(result)
+              console.log("cart: ", result)
               setCart(result)
             } else {
               setAlert(result.error.message)

@@ -52,7 +52,7 @@ const App = () => {
           </div>
           <nav className="nav">
             <Link to="/">HOME</Link>
-            <Link to="/cart">MY CART</Link>
+            <Link to="/cart">MY CART ({cart.items ? cart.items.length: 0})</Link>
             {userName && !admin ? <Link to="/account">ACCOUNT</Link> : null}
             {admin ? <Link to="/admin">ADMIN</Link> : null}
             <Link to={logText === "LOGIN" ? "/login" : "/logout"} className="nav-link" id="nav-login">{logText}</Link>
