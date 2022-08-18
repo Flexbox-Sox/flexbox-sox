@@ -151,6 +151,7 @@ async function updateCart(id, fields = {}) {
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
 
+  console.log(setString)
   try { const { rows: [cart] } = await client.query(`
       UPDATE carts
       SET ${setString}
