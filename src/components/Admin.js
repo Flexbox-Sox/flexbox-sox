@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
+import "../style/Admin.css";
 
 const API_URL = 'http://localhost:3000/api'
 
 const Admin = (props) => {
-    const { token  } = props;
+    const { token, setAlert, users, setUsers } = props;
     
     
     const submitProduct = async (event) => {
@@ -38,11 +39,10 @@ const Admin = (props) => {
             })
         }).then(response => response.json())
         .then(result => {
-            console.log(result)
             if (!result.error) {
-                console.log(result)
+                setAlert(result.message)
             } else {
-                console.log(result.error.message)
+                setAlert(result.error.message)
             }
         })
         .catch(console.error)
@@ -85,9 +85,9 @@ const Admin = (props) => {
       .then(result => {
           console.log(result)
           if (!result.error) {
-              console.log(result)
+              setAlert(result.message)
           } else {
-              console.log(result.error.message)
+              setAlert(result.error.message)
           }
       })
       .catch(console.error)
@@ -115,53 +115,55 @@ const deleteProduct = async (productData) => {
     .then(result => {
         console.log(result)
         if (!result.error) {
-            console.log(result)
+            setAlert(result.message)
         } else {
-            console.log(result.error.message)
+            setAlert(result.error.message)
         }
     })
     .catch(console.error)
 }
 
-
-  
 useEffect(() => {
 
-  const getAllUsers = async () => {
-     await fetch(`${API_URL}/users`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-    }).then(response => response.json())
-    .then(result => {
-        console.log(result)
-        if (!result.error) {
-            console.log(result)
-        } else {
-            console.log(result.error.message)
-        }
-    })
-    .catch(console.error)
+    const getAllUsers = async () => {
+        await fetch(`${API_URL}/users`, {
+          method: "GET",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          },
+      }).then(response => response.json())
+      .then(result => {
+          if (!result.error) {
+            // console.log(result)
+              setUsers(result)
+          } else {
+              setAlert(result.error.message)
+          }
+      })
+      .catch(console.error)
   }
-  getAllUsers();
-}, [])
+
+  
 
 
 
 
+      getAllUsers();
+      console.log(users)
+  }, [])
 
 
-
-
-
+  
 
 
   return (
       <div className="AdminContainer">
+            <div>
+                <h1 className="header">Admin</h1>
+            </div>
           <div className="createProduct">
-            <h1>Admin</h1>
+            <h3 className="titles">Create Product</h3>
             <div id="createProductContainer">
               <form id="product-form">
                 <div className="inputs">
@@ -171,18 +173,18 @@ useEffect(() => {
                   <label>Price: $</label>
                   <input id="productPrice" type="Number" step="0.01" placeholder="Enter Product Price" required></input>
                   <br />
-                  <label>Product Description:</label>
-                  <textarea id="productDescription" rows={5} cols={40}
-                          placeholder='Enter Product Description Here'>
-                      </textarea>
-                  <br />
                   <label>Product Photo</label>
                   <input id="productPhoto" type="text" placeholder="Enter Photo URL" required></input>
                   <br />
+                  <label>Product Description:</label>
+                  <textarea id="productDescription" rows={2} cols={40}
+                          placeholder='Enter Product Description Here'>
+                      </textarea>
+                  <br />
 
                 </div>
-                <div className="submit-button">
-                   <button type="submit" onClick={submitProduct}>SUBMIT</button>
+                <div>
+                   <button className="submit-button" type="submit" onClick={submitProduct}>SUBMIT</button>
                 </div>
               </form>
             </div>
@@ -190,7 +192,7 @@ useEffect(() => {
           <br />
 
           <div className="editProduct">
-            <h3>Edit Product</h3>
+            <h3 className="titles">Edit Product</h3>
             <div id='editProductContainer'>
                 <form id='editProductForm'>
                     <div className='inputs'>
@@ -203,36 +205,53 @@ useEffect(() => {
                   <label>Price: $</label>
                   <input id="editProductPrice" type="Number" step="0.01" placeholder="Edit Product Price" required></input>
                   <br />
-                  <label>Product Description:</label>
-                  <textarea id="editProductDescription" rows={5} cols={40}
-                          placeholder='Edit Product Description Here'>
-                      </textarea>
-                  <br />
                   <label>Product Photo</label>
                   <input id="editProductPhoto" type="text" placeholder="Enter Photo URL" required></input>
                   <br />
+                  <label>Product Description:</label>
+                  <textarea id="editProductDescription" rows={2} cols={40}
+                          placeholder='Edit Product Description Here'>
+                      </textarea>
+                  <br />
                     </div>
-                    <div className='submit-button'>
-                         <button type="submit" onClick={submitEditedProduct}>SUBMIT</button>
+                    <div>
+                         <button className='submit-button' type="submit" onClick={submitEditedProduct}>SUBMIT</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <div className="deleteProduct">
-            <h3>Delete Product</h3>
+            <h3 className="titles">Delete Product</h3>
             <div id='deleteProductContainer'>
-                  <form id='deleteProductForm'>
+                <form id='deleteProductForm'>
                     <div className='inputs'>
                     <label>Product ID:</label>
                     <input id="deletedProduct" type="text" placeholder="Enter Product ID" required></input>
                     <br />
                     </div>
-                      <div className='submit-button'>
-                        <button type="button" onClick={submitDeletedProduct}>SUBMIT</button> 
-                      </div>
-                  </form>
+                      <div>
+                        <button className='delete-button' type="button" onClick={submitDeletedProduct}>DELETE</button> 
+                    </div>
+                </form>
             </div>
+        </div>
+
+        <div className="allUsers">
+        <h3 className="titles">All Users</h3>
+            {users.length? <div className="usersContainer">
+                {users.map((user, index) => {
+                    return(
+                    <div className='users' key={index}>
+                        <div className='users-info'>
+                            <h3>{user.username}</h3>
+                            <h3>{user.email}</h3>
+                            <h3>{user.id}</h3>
+                        </div>
+                        
+                    </div>
+                )})}
+            </div>: <div className="userMessage">Only Admins Can See This Data!</div>}
         </div>
 
 

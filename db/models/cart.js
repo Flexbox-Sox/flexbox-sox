@@ -46,6 +46,21 @@ async function getCartByUser(userId) {
   }
 }
 
+async function getCartBySessionId(sessionId) {
+  try {
+    const { rows: [cart] } = await client.query(`
+      SELECT *
+      FROM carts
+      WHERE "sessionId"=$1;
+    `, [sessionId]);
+
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 // Here we are creating a single cart
 async function createCart({ userId, sessionId }) {
   try {
@@ -80,7 +95,7 @@ async function createCartItem({ productId, priceAtPurchase, cartId }) {
 async function attachProducttoCartItem(productId) {
   try {
     const { rows: [cartItem] } = await client.query(`
-      SELECT "cartItems".id AS "cartItemId", "cartItems"."productId", "cartItems"."priceAtPurchase", products.name, products.description, products.photo 
+      SELECT "cartItems".id AS "cartItemId", "cartItems"."productId", "cartItems"."priceAtPurchase", "cartItems".quantity, products.name, products.description, products.photo 
       FROM "cartItems"
       JOIN products ON "cartItems"."productId"= products.id AND "cartItems"."productId" = $1
     `, [productId]);
@@ -118,14 +133,12 @@ async function getAllCartItemsInCart(cartId) {
 // HAVE NOT USED THIS YET... 
 async function attachCartsToUsers() {
   try {
-    const {
-      rows: [users],
-    } = client.query(`
-    SELECT carts. *
-    FROM carts
-    JOIN users ON carts."userId"= users.id
-    
+    const { rows: [users] } = client.query(`
+      SELECT carts. *
+      FROM carts
+      JOIN users ON carts."userId"= users.id
     `);
+
     return users;
   } catch (error) {
     console.log(error);
@@ -138,18 +151,13 @@ async function updateCart(id, fields = {}) {
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
 
-  try {
-    const {
-      rows: [cart],
-    } = await client.query(
-      `
+  console.log(setString)
+  try { const { rows: [cart] } = await client.query(`
       UPDATE carts
       SET ${setString}
       WHERE id=${id}
       RETURNING *;
-    `,
-      Object.values(fields)
-    );
+    `, Object.values(fields));
 
     return cart;
   } catch (error) {
@@ -157,27 +165,44 @@ async function updateCart(id, fields = {}) {
   }
 }
 
+async function updateCartItem(id, fields = {}) {
+  const setString = Object.keys(fields)
+    .map((key, index) => `"${key}"=$${index + 1}`)
+    .join(", ");
+
+  try { const { rows: [cartItem] } = await client.query(`
+      UPDATE "cartItems"
+      SET ${setString}
+      WHERE id=${id}
+      RETURNING *;
+    `, Object.values(fields));
+
+    return cartItem;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // DELETE A CART GIVEN ITS ID
 async function deleteCart(id) {
-  await client.query(
-    `
+  await client.query(`
     DELETE FROM carts
     WHERE id=$1
     RETURNING *;
-  `,
-    [id]
-  );
+  `, [id]);
 }
 
 module.exports = {
   getAllCarts,
   getCartById,
   getCartByUser,
+  getCartBySessionId,
   createCart,
   createCartItem,
   getAllCartItemsInCart,
   attachProducttoCartItem,
   attachCartsToUsers,
   updateCart,
+  updateCartItem,
   deleteCart,
 };

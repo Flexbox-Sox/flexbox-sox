@@ -1,35 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Products from "./Products";
-import { getAPIHealth, fetchAllProducts } from "../axios-services";
+import { fetchAllProducts } from "../axios-services";
 import "../style/App.css";
+import "../style/index.css";
+
 import SingleProduct from "./SingleProduct";
 import Register from "./Register";
 import Login from "./Login";
 import Logout from "./Logout";
 import Admin from "./Admin";
 import Carts from "./Carts";
+import Alert, {showAlert} from "./Alert";
+import Account from "./Account";
+import Checkout from "./Checkout";
 
 const App = () => {
-  const [APIHealth, setAPIHealth] = useState("");
   const [products, setProducts] = useState([]);
   const [singleProductId, setSingleProductId] = useState();
   const [userName, setUserName] = useState("");
+  const [admin, setAdmin] = useState("");
   const [token, setToken] = useState("");
   const [logText, setLogText] = useState("LOGIN");
+  const [cart, setCart] = useState({});
+  const [alert, setAlert] = useState("");
+  const [users, setUsers] = useState([]);
+  const isMounted = useRef(false);
 
   useEffect(() => {
-    const getAPIStatus = async () => {
-      const { healthy } = await getAPIHealth();
-      setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
-    };
+      if (isMounted.current) {
+          showAlert()
+      } else {
+          isMounted.current = true;
+      }}, [alert]);
 
+  useEffect(() => {
     const fetchProducts = async () => {
       const allProducts = await fetchAllProducts();
       setProducts(allProducts);
     };
 
-    getAPIStatus();
     fetchProducts();
   }, []);
 
@@ -42,15 +52,10 @@ const App = () => {
           </div>
           <nav className="nav">
             <Link to="/">HOME</Link>
-            <Link to="/cart">MY CART</Link>
-            <Link
-              to={logText === "LOGIN" ? "/login" : "/logout"}
-              className="nav-link"
-              id="nav-login"
-            >
-              {logText}
-            </Link>
-            <Link to="/admin">ADMIN</Link>
+            <Link to="/cart">MY CART ({cart.items ? cart.items.length: 0})</Link>
+            {userName && !admin ? <Link to="/account">ACCOUNT</Link> : null}
+            {admin ? <Link to="/admin">ADMIN</Link> : null}
+            <Link to={logText === "LOGIN" ? "/login" : "/logout"} className="nav-link" id="nav-login">{logText}</Link>
           </nav>
         </header>
         <main>
@@ -58,12 +63,14 @@ const App = () => {
             <Products
               products={products}
               setSingleProductId={setSingleProductId}
+              token={token}
             />
           </Route>
           <Route exact path="/singleProduct">
             <SingleProduct
               singleProductId={singleProductId}
               products={products}
+              setAlert={setAlert}
             />
           </Route>
           <Route exact path="/register">
@@ -71,6 +78,7 @@ const App = () => {
               setUserName={setUserName}
               setToken={setToken}
               setLogText={setLogText}
+              setAlert={setAlert}
             />
           </Route>
           <Route exact path="/login">
@@ -78,6 +86,8 @@ const App = () => {
               setUserName={setUserName}
               setToken={setToken}
               setLogText={setLogText}
+              setAlert={setAlert}
+              setAdmin={setAdmin}
             />
           </Route>
           <Route exact path="/logout">
@@ -85,18 +95,36 @@ const App = () => {
               setUserName={setUserName}
               setToken={setToken}
               setLogText={setLogText}
+              setAlert={setAlert}
+              setAdmin={setAdmin}
             />
           </Route>
+          <Route exact path="/account">
+            <Account />
+          </Route>
           <Route exact path="/admin">
-            <Admin token={token} />
+            <Admin 
+              token={token} 
+              setAlert={setAlert}
+              users={users}
+              setUsers={setUsers} />
           </Route>
           <Route exact path="/cart">
-            <Carts token={token} />
+            <Carts 
+              token={token}
+              cart={cart}
+              setCart={setCart}
+              setAlert={setAlert} />
+          </Route>
+          <Route exact path="/checkout">
+            <Checkout 
+              setAlert={setAlert} />
           </Route>
         </main>
         <footer>
-          <h3>Temporary</h3>
-          <p>API HEALTH UPDATE: {APIHealth}</p>
+          <div className='alert'>
+                <Alert alert={alert} />
+            </div>
         </footer>
       </div>
     </Router>
