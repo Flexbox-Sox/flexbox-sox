@@ -177,7 +177,7 @@ useEffect(() => {
                   <input id="productPhoto" type="text" placeholder="Enter Photo URL" required></input>
                   <br />
                   <label>Product Description:</label>
-                  <textarea id="productDescription" rows={5} cols={40}
+                  <textarea id="productDescription" rows={2} cols={40}
                           placeholder='Enter Product Description Here'>
                       </textarea>
                   <br />
@@ -209,7 +209,7 @@ useEffect(() => {
                   <input id="editProductPhoto" type="text" placeholder="Enter Photo URL" required></input>
                   <br />
                   <label>Product Description:</label>
-                  <textarea id="editProductDescription" rows={5} cols={40}
+                  <textarea id="editProductDescription" rows={2} cols={40}
                           placeholder='Edit Product Description Here'>
                       </textarea>
                   <br />
@@ -251,7 +251,7 @@ useEffect(() => {
                         
                     </div>
                 )})}
-            </div>: <div className="userMessage">No Users to display</div>}
+            </div>: <div className="userMessage">Only Admins Can See This Data!</div>}
         </div>
 
 
