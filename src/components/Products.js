@@ -4,7 +4,7 @@ import '../style/Products.css';
 import { addSingleProductToCart } from '../axios-services';
 
 const Products = (props) => {
-    const { products, setSingleProductId, token } = props;
+    const { products, setSingleProductId, token, setAlert } = props;
     const history = useHistory();
     
     const handleClick = (event) => {
@@ -13,7 +13,11 @@ const Products = (props) => {
     }
 
     const addToCart = async (event) => {
-        await addSingleProductToCart(event.target.dataset.id, token)
+        if (!event.target.dataset.id) {
+            setAlert("Item failed to add, please try again!")
+        } else {
+            await addSingleProductToCart(event.target.dataset.id, token)
+        }
     }
 
     return (

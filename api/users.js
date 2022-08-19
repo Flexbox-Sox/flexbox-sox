@@ -20,10 +20,7 @@ usersRouter.get("/", async(req, res, next) => {
 
 usersRouter.get("/logout", async (req, res, next) => {
   try {
-    req.session.destroy(
-      console.log("session destroyed")
-    )
-
+    req.session.destroy()
     req.user = null
     res.send("You have logged out")
   } catch (error) {
@@ -43,12 +40,12 @@ usersRouter.post("/register", async (req, res, next) => {
         message: `User ${username} is already taken.`,
       });
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const userObj = { username, password:hashedPassword, email}
     const token = jwt.sign(userObj, JWT_SECRET);
     const finalUser = await createUser(userObj) 
     res.send({
-      message: "You are now registered.",
+      message: "You are now registered. Now please log in!",
       token: token,
       user: finalUser,
       

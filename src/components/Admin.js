@@ -6,7 +6,6 @@ const API_URL = 'http://localhost:3000/api'
 const Admin = (props) => {
     const { token, setAlert, users, setUsers } = props;
     
-    
     const submitProduct = async (event) => {
         const productNameInput = document.getElementById("productName").value;
         const productPriceInput = document.getElementById("productPrice").value;
@@ -68,7 +67,6 @@ const Admin = (props) => {
   }
   
   const editProduct = async (productData) => {
-    console.log(productData)
        await fetch(`${API_URL}/products/${productData.id}`, {
           method: "PATCH",
           headers: {
@@ -113,7 +111,6 @@ const deleteProduct = async (productData) => {
         },
     }).then(response => response.json())
     .then(result => {
-        console.log(result)
         if (!result.error) {
             setAlert(result.message)
         } else {
@@ -135,7 +132,6 @@ useEffect(() => {
       }).then(response => response.json())
       .then(result => {
           if (!result.error) {
-            // console.log(result)
               setUsers(result)
           } else {
               setAlert(result.error.message)
@@ -143,14 +139,7 @@ useEffect(() => {
       })
       .catch(console.error)
   }
-
-  
-
-
-
-
       getAllUsers();
-      console.log(users)
   }, [])
 
 

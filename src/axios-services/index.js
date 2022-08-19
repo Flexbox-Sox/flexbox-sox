@@ -5,7 +5,6 @@ export async function getAPIHealth() {
     const { data } = await axios.get("/api/health");
     return data;
   } catch (err) {
-    console.error(err);
     return { healthy: false };
   }
 }
@@ -15,16 +14,17 @@ export async function fetchAllProducts() {
     const { data } = await axios.get("/api/products");
     return data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
+
 
 export async function fetchSingleProduct(productId) {
   try {
     const { data } = await axios.get(`/api/products/${productId}`);
     return data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -37,25 +37,19 @@ export async function addSingleProductToCart(productId, token) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         }
-      }).then(function (response) {
-        console.log(response)
-      }).catch(function (error) {
-        console.log(error)
       })
     } else {
       await axios.post(`/api/carts/singleCart`, {productId: productId, priceAtPurchase: product.price}, {
         headers: {
           'Content-Type': 'application/json',
         }
-      }).then(function (response) {
-        console.log(response)
-      }).catch(function (error) {
-        console.log(error)
       })
     }
 
+    return product;
+
   } catch (error) {
-    console.log(error)
+    throw error;
   }
 }
 
@@ -64,6 +58,6 @@ export async function logoutUser() {
     const {data} = await axios.get('/api/users/logout')
     return data
   } catch (error) {
-    console.log(error)
+    throw error;
   }
 }

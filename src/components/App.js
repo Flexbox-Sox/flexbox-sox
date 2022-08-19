@@ -15,12 +15,13 @@ import Alert, {showAlert} from "./Alert";
 import Account from "./Account";
 import Checkout from "./Checkout";
 
+
 const App = () => {
+  const [token, setToken] = useState("");
   const [products, setProducts] = useState([]);
   const [singleProductId, setSingleProductId] = useState();
   const [userName, setUserName] = useState("");
   const [admin, setAdmin] = useState("");
-  const [token, setToken] = useState("");
   const [logText, setLogText] = useState("LOGIN");
   const [cart, setCart] = useState({});
   const [alert, setAlert] = useState("");
@@ -64,6 +65,7 @@ const App = () => {
               products={products}
               setSingleProductId={setSingleProductId}
               token={token}
+              setAlert={setAlert}
             />
           </Route>
           <Route exact path="/singleProduct">
@@ -75,9 +77,6 @@ const App = () => {
           </Route>
           <Route exact path="/register">
             <Register
-              setUserName={setUserName}
-              setToken={setToken}
-              setLogText={setLogText}
               setAlert={setAlert}
             />
           </Route>
@@ -118,7 +117,8 @@ const App = () => {
           </Route>
           <Route exact path="/checkout">
             <Checkout 
-              setAlert={setAlert} />
+              setAlert={setAlert}
+              token={token} />
           </Route>
         </main>
         <footer>
