@@ -13,22 +13,17 @@ apiRouter.get("/", (req, res, next) => {
   });
 });
 
-// apiRouter.get("/logout", (req, res, next) => {
-//   req.session.destroy((
-//     console.log("session has been destroyed")
-//   ))
-// })
-
 apiRouter.get("/health", (req, res, next) => {
   res.send({
     healthy: true,
   });
 });
 
+
 apiRouter.use(async (req, res, next) => {
   const prefix = "Bearer ";
   const auth = req.header("Authorization");
-
+  
   if (!auth) {
     next()
   } else if (auth.startsWith(prefix)) {
@@ -38,6 +33,7 @@ apiRouter.use(async (req, res, next) => {
       const { id } = jwt.verify(token, JWT_SECRET);
       if (id) {
         req.user = await getUserById(id);
+        console.log("this is my user", req.user)
         next();
       }
     } catch ({ name, message }) {
@@ -50,6 +46,7 @@ apiRouter.use(async (req, res, next) => {
     });
   }
 });
+
 // place your routers here
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/products", productsRouter);

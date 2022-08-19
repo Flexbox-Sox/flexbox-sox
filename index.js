@@ -13,17 +13,9 @@ server.use(
   session({
     secret: `${process.env.JWT_SECRET}`,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
   })
 );
-
-
-// server.get('/', (req, res) => {
-//   console.log(req.session);
-//   console.log("session id ", req.sessionID)
-//   req.session.viewCount += 1;
-//   res.send(`View count at ${req.session.viewCount}`);
-// })
 
 // here's our static files
 const path = require('path');
