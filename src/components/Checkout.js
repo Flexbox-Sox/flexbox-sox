@@ -3,11 +3,31 @@ import "../style/checkout.css"
 const API_URL = 'http://localhost:3000/api'
 
 const Checkout = (props) => {
-    const { setAlert } = props;
+    const { setAlert, token } = props;
     
     const checkoutProduct = async () => {
         const orderStatus = "completed"
-         await fetch(`${API_URL}/carts/singleCart`, {
+        if (token) {
+            await fetch(`${API_URL}/carts/singleCart`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                   orderStatus
+                })
+            }).then(response => response.json())
+            .then(result => {
+                if (!result.error) {
+                    setAlert("Order Purchased! Thank you!")
+                } else {
+                    setAlert(result.error.message)
+                }
+            })
+            .catch(console.error)
+        } else {
+        await fetch(`${API_URL}/carts/singleCart`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -17,7 +37,6 @@ const Checkout = (props) => {
             })
         }).then(response => response.json())
         .then(result => {
-            console.log("This is Result!!!", result)
             if (!result.error) {
                 setAlert("Order Purchased! Thank you!")
             } else {
@@ -25,7 +44,9 @@ const Checkout = (props) => {
             }
         })
         .catch(console.error)
+        }
     }
+
     return(
         <div className='checkout-container'>
             <h1>CHECKOUT</h1>

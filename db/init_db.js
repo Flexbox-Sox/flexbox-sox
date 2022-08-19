@@ -1,5 +1,5 @@
 const { client, createProduct } = require("./");
-const { createCart, createUser, updateUser, createCartItem } = require("./models");
+const { createUser, updateUser } = require("./models");
 
 async function buildTables() {
   try {
@@ -156,52 +156,6 @@ async function populateInitialData() {
       username: "nikoboykin",
       password: "nikoboykin",
       email: "niko@email.com"
-    })
-    
-    const cart = await createCart({
-      userId: 1,
-      sessionId: 1
-    })
-
-    const cart1Item1 = await createCartItem({
-      productId: 2,
-      priceAtPurchase: 5.99,
-      cartId: 1
-    })
-
-    const cart1Item2 = await createCartItem({
-      productId: 4,
-      priceAtPurchase: 5.99,
-      cartId: 1
-    })
-
-    const cart1Item3 = await createCartItem({
-      productId: 5,
-      priceAtPurchase: 5.99,
-      cartId: 1
-    })
-
-    const cart2 = await createCart({
-      userId: 2,
-      sessionId: 2
-    })
-
-    const cart2Item1 = await createCartItem({
-      productId: 7,
-      priceAtPurchase: 5.99,
-      cartId: 2
-    })
-
-    const cart2Item2 = await createCartItem({
-      productId: 10,
-      priceAtPurchase: 5.99,
-      cartId: 2
-    })
-
-    const cart2Item3 = await createCartItem({
-      productId: 10,
-      priceAtPurchase: 5.99,
-      cartId: 2
     })
     
   } catch (error) {

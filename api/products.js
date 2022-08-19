@@ -1,7 +1,7 @@
 const express = require('express');
 const productsRouter = express.Router();
 const { requireUser, requireAdmin } = require("./utils");
-const { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct, getProductByName } = require("../db")
+const { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct, getProductByName, deleteCartItems } = require("../db")
 
 productsRouter.get("/", async(req, res, next) => {
     try {
@@ -93,6 +93,7 @@ productsRouter.patch('/:productId', requireUser, async (req, res, next) => {
 productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
     const { productId } = req.params;
     try {
+            const deletedItems = await deleteCartItems(productId)
             const deletedProduct = await deleteProduct(productId)
             res.send({ product: deletedProduct });
   

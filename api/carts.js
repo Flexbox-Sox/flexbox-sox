@@ -1,6 +1,6 @@
 const express = require("express");
 const cartsRouter = express.Router();
-const { getAllCarts, createCart, updateCart, deleteCart, getCartById, createCartItem, getAllCartItemsInCart, getCartByUser, getCartBySessionId } = require("../db");
+const { getAllCarts, createCart, updateCart, deleteCart, getCartById, createCartItem, getAllCartItemsInCart, getCartByUser, getCartBySessionId, deleteCartItems, getCartItemByProductId, updateCartItem, deleteCartItemInCart } = require("../db");
 const {requireAdmin} = require('./utils');
 
 // GET all carts (admin only)
@@ -16,13 +16,15 @@ cartsRouter.get("/", requireAdmin, async (req, res, next) => {
 // PATCH edit a single cart by its id.. would only need this to update order status or add a user id
 cartsRouter.patch("/singleCart", async (req, res, next) => {
     const sessionId = req.sessionID
-    const sessionCart = await getCartBySessionId(sessionId)
+    const sessionCartArray = await getCartBySessionId(sessionId)
+    const sessionCart = sessionCartArray.find(sessionCart => sessionCart.orderStatus === "active")
     const { userId, orderStatus } = req.body;
     const updateFields = {}
-    const userCart = null;
-    console.log("requser", req.user)
+    let userCart = null;
+
     if (req.user) {
-        userCart = await getCartByUser(req.user.id)
+        const userCartArray = await getCartByUser(req.user.id)
+        userCart = userCartArray.find(userCart => userCart.orderStatus === "active")
     }
 
     if (orderStatus) {
@@ -35,11 +37,9 @@ cartsRouter.patch("/singleCart", async (req, res, next) => {
 
     try {
         if (userCart) {
-            console.log("got here user cart")
-            const updatedCart = await updateCart(userCart[0].id, updateFields);
+            const updatedCart = await updateCart(userCart.id, updateFields);
             res.send({cart: updatedCart})
         } else  if (sessionCart) {
-            console.log("got here session cart")
             const updatedCart = await updateCart(sessionCart.id, updateFields);
             res.send({cart: updatedCart})
         } else {
@@ -76,10 +76,42 @@ cartsRouter.delete("/singleCart/:cartId", async (req, res, next) => {
     }
 })
 
+cartsRouter.patch("/singleCart/item/", async (req, res,  next) => {
+    const { productId } = req.body;
+    const sessionId = req.sessionID;
+    const sessionCartArray = await getCartBySessionId(sessionId)
+    const sessionCart = sessionCartArray.find(sessionCart => sessionCart.orderStatus === "active")
+    let userCart = undefined
+
+    if (req.user) {
+        const userCartArray = await getCartByUser(req.user.id)
+        userCart = userCartArray.find(userCart => userCart.orderStatus === "active")
+    }
+
+    if (!userCart) {
+        const cartItem = await getCartItemByProductId(productId, sessionCart.id)
+        if (cartItem.quantity > 1) {
+            const newQuantity = cartItem.quantity - 1;
+            await updateCartItem(cartItem.id, {quantity: newQuantity})
+        } else {
+            await deleteCartItemInCart(productId, sessionCart.id)
+        }
+    } else if (userCart) {
+        const cartItem = await getCartItemByProductId(productId, userCart.id)
+        if (cartItem.quantity > 1) {
+            const newQuantity = cartItem.quantity - 1;
+            await updateCartItem(cartItem.id, {quantity: newQuantity})
+        } else {
+            await deleteCartItemInCart(productId, userCart.id)
+        } 
+    }
+})
+
 // GET a cart by its id including all of its items
 cartsRouter.get("/singleCart", async (req, res, next) => {
     const sessionId = req.sessionID
-    const sessionCart = await getCartBySessionId(sessionId)
+    const sessionCartArray = await getCartBySessionId(sessionId)
+    const sessionCart = sessionCartArray.find(sessionCart => sessionCart.orderStatus === "active")
     let userCart = undefined
 
     if (req.user) {
@@ -93,13 +125,13 @@ cartsRouter.get("/singleCart", async (req, res, next) => {
     } else if (!sessionCart && req.user && !userCart) {
         const newCart = await createCart({userId: req.user.id, sessionId})
         res.send(newCart)
-    } else if (!sessionCart && req.user && userCart) {
-        const newCart = await getAllCartItemsInCart(Number(userCart.id))
-        res.send(newCart)
-    } else if (sessionCart && userCart) {
+    } else if (sessionCart.userId === null && userCart) {
         await deleteCart(sessionCart.id)
         const cart = await getAllCartItemsInCart(Number(userCart.id))
         res.send(cart)
+    } else if (req.user && userCart) {
+        const newCart = await getAllCartItemsInCart(Number(userCart.id))
+        res.send(newCart)
     } else {
         const cart = await getAllCartItemsInCart(Number(sessionCart.id))
         if (sessionCart.orderStatus === "active") {
@@ -117,29 +149,32 @@ cartsRouter.post("/singleCart", async (req, res, next) => {
     const cartItem = { productId, priceAtPurchase };
     const sessionId = req.sessionID
     let userId = null
-    const sessionCart = await getCartBySessionId(sessionId)
-    console.log("sessionId", sessionId)
+    const sessionCartArray = await getCartBySessionId(sessionId)
+    const sessionCart = sessionCartArray.find(sessionCart => sessionCart.orderStatus === "active")
 
     if (sessionCart && !req.user) {
-        if (sessionCart.items) {
-            console.log("sessionCart.items", sessionCart.items)
-            items.push(cartItem)
+        const potentialItem = await getCartItemByProductId(productId, sessionCart.id)
+        if (potentialItem) {
+            const newQuantity = potentialItem.quantity + 1;
+            await updateCartItem(potentialItem.id, {quantity: newQuantity} )
         } else {
-            console.log("and here")
-            console.log("sessionCart.items", sessionCart.items)
-            sessionCart.items = cartItem
+            await createCartItem({ productId, priceAtPurchase, cartId: sessionCart.id})
         }
-        await createCartItem({ productId, priceAtPurchase, cartId: sessionCart.id})
     } else if (req.user) { 
         const userCartArray = await getCartByUser(req.user.id)
         if (userCartArray.length) {
             const userCart = userCartArray.find(userCart => userCart.orderStatus === "active")
-            if (userCart.items) {
-                userCart.items.push(cartItem)
-                await createCartItem({ productId, priceAtPurchase, cartId: userCart.id})
+            if (!userCart) {
+                const newCart = await createCart({userId: req.user.id, sessionId});
+                await createCartItem({ productId, priceAtPurchase, cartId: newCart.id });
             } else {
-                userCart.items = cartItem
-                await createCartItem({ productId, priceAtPurchase, cartId: userCart.id})
+                const potentialItem = await getCartItemByProductId(productId, userCart.id)
+                if (potentialItem) {
+                    const newQuantity = potentialItem.quantity + 1;
+                    await updateCartItem(potentialItem.id, {quantity: newQuantity} )
+                } else {
+                    await createCartItem({ productId, priceAtPurchase, cartId: userCart.id})
+                }
             }
         } else {
             userId = req.user.id

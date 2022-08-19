@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { addSingleProductToCart } from "../axios-services";
 
 const API_URL = 'http://localhost:3000/api'
 
@@ -19,7 +20,6 @@ const Carts = (props) => {
           .then((response) => response.json())
           .then((result) => {
             if (!result.error) {
-              console.log("cart: ", result)
               setCart(result)
             } else {
               setAlert(result.error.message)
@@ -33,7 +33,6 @@ const Carts = (props) => {
           .then((response) => response.json())
           .then((result) => {
             if (!result.error) {
-              console.log("cart: ", result)
               setCart(result)
             } else {
               setAlert(result.error.message)
@@ -46,12 +45,46 @@ const Carts = (props) => {
     fetchCart();
   }, []);
 
+  const addItem = async (event) => {
+    if (!event.target.dataset.id) {
+        setAlert("Item failed to add, please try again!")
+    } else {
+        await addSingleProductToCart(event.target.dataset.id, token)
+    }
+  }
+
+  const removeItem = async (event) => {
+    const productId = event.target.dataset.id;
+    if (token) {
+      await fetch(`${API_URL}/carts/singleCart/item`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          productId
+        })
+      })
+    } else {
+      await fetch(`${API_URL}/carts/singleCart/item`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          productId
+        })
+      })
+    }
+  }
+  
+
   return (
     <div>
       <h1>MY CART</h1>
       { cart.items ? <div className='cart-container'>
                 {cart.items.map((item, index) => {
-                  console.log(item)
                     return(
                     <div className='item' key={index}>
                         <div className='item-info'>
@@ -63,8 +96,8 @@ const Carts = (props) => {
                             <img src={item.photo} alt={item.description}/>
                         </div>
                         <div className='item-buttons'>
-                            <button className='add-item' data-id={item.cartItemId}>ADD ANOTHER</button>
-                            <button className='remove-item'>REMOVE ITEM</button>
+                            <button className='add-item' data-id={item.productId} onClick={addItem}>ADD ANOTHER</button>
+                            <button className='remove-item' data-id={item.productId} onClick={removeItem}>REMOVE ITEM</button>
                         </div>
                     </div>
                 )})}

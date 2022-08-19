@@ -48,15 +48,27 @@ async function getCartByUser(userId) {
 
 async function getCartBySessionId(sessionId) {
   try {
-    const { rows: [cart] } = await client.query(`
+    const { rows: carts } = await client.query(`
       SELECT *
       FROM carts
       WHERE "sessionId"=$1;
     `, [sessionId]);
 
-    console.log("sessioncart", cart)
+    return carts;
+  } catch (error) {
+    throw error;
+  }
+}
 
-    return cart;
+async function getCartItemByProductId(productId, cartId) {
+  try {
+    const { rows: [cartItem] } = await client.query(`
+      SELECT * 
+      FROM "cartItems"
+      WHERE "productId"=$1 AND "cartId"=$2
+    `, [productId, cartId]) 
+
+    return cartItem;
   } catch (error) {
     throw error;
   }
@@ -74,7 +86,6 @@ async function createCart({ userId, sessionId }) {
 
     return cart;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 }
@@ -143,7 +154,7 @@ async function attachCartsToUsers() {
 
     return users;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -153,7 +164,6 @@ async function updateCart(id, fields = {}) {
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
 
-  console.log(setString)
   try { const { rows: [cart] } = await client.query(`
       UPDATE carts
       SET ${setString}
@@ -163,7 +173,7 @@ async function updateCart(id, fields = {}) {
 
     return cart;
   } catch (error) {
-    console.log(error);
+    throw error
   }
 }
 
@@ -181,12 +191,18 @@ async function updateCartItem(id, fields = {}) {
 
     return cartItem;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
 // DELETE A CART GIVEN ITS ID
 async function deleteCart(id) {
+  await client.query(`
+  DELETE FROM "cartItems"
+  WHERE "cartId"=$1
+  RETURNING *;
+`, [id]);
+
   await client.query(`
     DELETE FROM carts
     WHERE id=$1
@@ -194,11 +210,29 @@ async function deleteCart(id) {
   `, [id]);
 }
 
+// DELETE CART ITEMS BY ITS PRODUCT ID 
+async function deleteCartItems(productId) {
+  await client.query(`
+    DELETE FROM "cartItems"
+    WHERE "productId"=$1
+    RETURNING*;
+  `, [productId])
+}
+
+async function deleteCartItemInCart(productId, cartId) {
+  await client.query(`
+    DELETE FROM "cartItems"
+    WHERE "productId"=$1 AND "cartId"=$2
+    RETURNING *;
+  `, [productId, cartId])
+}
+
 module.exports = {
   getAllCarts,
   getCartById,
   getCartByUser,
   getCartBySessionId,
+  getCartItemByProductId,
   createCart,
   createCartItem,
   getAllCartItemsInCart,
@@ -207,4 +241,6 @@ module.exports = {
   updateCart,
   updateCartItem,
   deleteCart,
+  deleteCartItems,
+  deleteCartItemInCart
 };

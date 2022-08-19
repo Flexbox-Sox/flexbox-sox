@@ -11,7 +11,7 @@ async function getAllProducts() {
 
     return products;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -25,7 +25,7 @@ async function getProductById(productId) {
 
     return product;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -39,7 +39,7 @@ async function getProductByName(productName) {
 
     return product;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -54,7 +54,7 @@ async function createProduct({ name, price, description, photo }) {
 
     return product;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -73,13 +73,12 @@ async function updateProduct(id, fields={}) {
 
     return product;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
 async function deleteProduct(productId) {
-  await client.query(
-    `
+  await client.query(`
     DELETE FROM products
     WHERE id=$1
     RETURNING *;
