@@ -20,5 +20,7 @@
 
 .userMessage{
     color: red;
+    font-weight: bold;
+    font-size: large;
 }
 
