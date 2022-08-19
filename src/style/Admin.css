@@ -1,0 +1,26 @@
+.titles{
+    text-decoration: underline;
+    color: navy;
+}
+
+.header{
+    text-align: center;
+    text-decoration: underline;
+    color: navy;
+}
+
+.submit-button:hover{
+    background-color: green;
+    
+}
+
+.delete-button:hover{
+   background-color: red;
+}
+
+.userMessage{
+    color: red;
+    font-weight: bold;
+    font-size: large;
+}
+
