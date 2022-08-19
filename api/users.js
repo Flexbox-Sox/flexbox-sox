@@ -67,6 +67,8 @@ usersRouter.post("/login", async (req, res, next) => {
       
     if (userLogin && hashedPassword === userLogin.hashedPassword) {
       const token = jwt.sign(userLogin, JWT_SECRET);
+      req.user = await getUserById(userLogin.id);
+
       res.send({
         message: "you're logged in!",
         token: token,

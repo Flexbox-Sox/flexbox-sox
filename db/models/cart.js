@@ -54,6 +54,8 @@ async function getCartBySessionId(sessionId) {
       WHERE "sessionId"=$1;
     `, [sessionId]);
 
+    console.log("sessioncart", cart)
+
     return cart;
   } catch (error) {
     throw error;

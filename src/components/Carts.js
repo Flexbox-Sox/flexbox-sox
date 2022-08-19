@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const API_URL = 'http://localhost:3000/api'
 
@@ -18,6 +19,7 @@ const Carts = (props) => {
           .then((response) => response.json())
           .then((result) => {
             if (!result.error) {
+              console.log("cart: ", result)
               setCart(result)
             } else {
               setAlert(result.error.message)
@@ -68,7 +70,7 @@ const Carts = (props) => {
                 )})}
             </div> : <div>Cart is empty!</div>}
           <div>
-            <a href="/checkout">GO TO CHECKOUT</a>
+            <Link to="/checkout">GO TO CHECKOUT</Link>
           </div>
     </div>
   )
