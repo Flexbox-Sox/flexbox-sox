@@ -6,7 +6,7 @@ const API_URL = 'http://localhost:3000/api'
 
 
 const Carts = (props) => {
-  const { token, cart, setCart, setAlert } = props;
+  const { token, cart, setCart, setAlert, setUpdate, update } = props;
 
   useEffect(() => {
     async function fetchCart() {
@@ -43,20 +43,22 @@ const Carts = (props) => {
     }
     
     fetchCart();
-  }, []);
+  }, [update]);
 
   const addItem = async (event) => {
     if (!event.target.dataset.id) {
         setAlert("Item failed to add, please try again!")
     } else {
         await addSingleProductToCart(event.target.dataset.id, token)
+        setAlert("Added another item!")
+        setUpdate(!update)
     }
   }
 
   const removeItem = async (event) => {
     const productId = event.target.dataset.id;
     if (token) {
-      await fetch(`${API_URL}/carts/singleCart/item`, {
+        await fetch(`${API_URL}/carts/singleCart/item`, {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json',
@@ -66,8 +68,10 @@ const Carts = (props) => {
           productId
         })
       })
+      .then(setAlert("Removed a sock"))
+      .then(setUpdate(!update))
     } else {
-      await fetch(`${API_URL}/carts/singleCart/item`, {
+        await fetch(`${API_URL}/carts/singleCart/item`, {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json'
@@ -76,6 +80,8 @@ const Carts = (props) => {
           productId
         })
       })
+      .then(setAlert("Removed a sock"))
+      .then(setUpdate(!update))
     }
   }
   
@@ -83,7 +89,7 @@ const Carts = (props) => {
   return (
     <div>
       <h1>MY CART</h1>
-      { cart.items ? <div className='cart-container'>
+      { cart.items && cart.items.length ? <div className='cart-container'>
                 {cart.items.map((item, index) => {
                     return(
                     <div className='item' key={index}>
@@ -102,6 +108,7 @@ const Carts = (props) => {
                     </div>
                 )})}
             </div> : <div>Cart is empty!</div>}
+          <br />
           <div>
             <Link to="/checkout">GO TO CHECKOUT</Link>
           </div>

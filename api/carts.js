@@ -125,7 +125,7 @@ cartsRouter.get("/singleCart", async (req, res, next) => {
     } else if (!sessionCart && req.user && !userCart) {
         const newCart = await createCart({userId: req.user.id, sessionId})
         res.send(newCart)
-    } else if (sessionCart.userId === null && userCart) {
+    } else if (sessionCart && sessionCart.userId === null && userCart) {
         await deleteCart(sessionCart.id)
         const cart = await getAllCartItemsInCart(Number(userCart.id))
         res.send(cart)

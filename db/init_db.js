@@ -56,103 +56,119 @@ async function buildTables() {
 
 async function populateInitialData() {
   try {
-    const product1 = await createProduct({
+    await createProduct({
+      name: "Annie's Face Sock",
+      description: "A pair of black socks with Annie's face all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/dP5cx1T/annie-sock-removebg-preview.png",
+      price: 99.99
+    })
+
+    await createProduct({
+      name: "I Heart KC",
+      description: "A pair of gray socks with red accents with the kc heart logo all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/j8jkHcV/heartkc-sock-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Who Wants Pizza??",
+      description: "A pair of turquoise socks with gray accents with delicious pepperoni pizza slices all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/Qky9CY0/pizza-sock-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Dill Pickle Feet",
+      description: "A pair of mustard colored socks with navy accents with pickles all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/RTpykS2/pickle-sock-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Donut You Want These Socks?!",
+      description: "A pair of green socks with pink frosted donuts all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/Zh9MrM1/donut-sock-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Funky Bananas",
+      description: "A pair of red socks with gray accents with bananas all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/tKHYvBn/banana-sock-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Yummy Avocados",
+      description: "A pair of blue socks with sliced avocados all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/j5x8tZm/avocado-sock-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "A Pair of Lemons",
+      description: "A pair of purple socks with delicious lemons all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/QmfD1yC/lemon-sock-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
       name: "RainBow Feet",
-      description: "100% Cotton | long socks | breathable material",
+      description: "100% Cotton | long socks | breathable material | 100% Cotton | Long Socks | Breathable and Durable Material",
       photo: "https://i.ibb.co/LtLzGgm/p-3.jpg",
       price: 5.99,
     });
-    const product2 = await createProduct({
-      name: "SharkBoy",
-      description: "100% cotton| base-color: blue | ankle socks ",
-      photo: "https://i.ibb.co/LzDt9pH/p-4.jpg",
-      price: 5.99,
-    });
-    const product3 = await createProduct({
-      name: "Flame Thrower",
-      description:
-        "Throws flames at your enemies and keeps your feet warm at night",
-      photo: "https://i.ibb.co/7YTgq1f/p-5.jpg",
-      price: 5.99,
-    });
-    const product4 = await createProduct({
-      name: "The lady with the crooked face",
-      description: " Carry a lady on your foot that never blinks",
-      photo: "https://i.ibb.co/RjYFFDB/p-6.jpg",
-      price: 5.99,
-    });
-    const product5 = await createProduct({
+
+    await createProduct({
       name: "Fruity Pebbles with out milk",
       description:
-        "Enjoy a fruity flavor on your feet all day #tastetheRainbow",
+        "Enjoy a fruity flavor on your feet all day #tastetheRainbow | 100% Cotton | Long Socks | Breathable and Durable Material",
       photo: "https://i.ibb.co/T1Zg4tK/p-1.jpg",
       price: 5.99,
     });
-    const product6 = await createProduct({
-      name: "Sandy the Squirel",
-      description: "Folks love spongebob so get your  very own sandy socks",
-      photo: "https://i.ibb.co/1nHDvJ3/p-11.jpg",
-      price: 5.99,
-    });
-    const product7 = await createProduct({
-      name: "Naked Lady",
-      description: "There is a lady in a shell",
-      photo: "https://i.ibb.co/n3DsHHy/p-12.jpg",
-      price: 5.99,
-    });
-    const product8 = await createProduct({
-      name: "Alien dance Party",
+
+    await createProduct({
+      name: "The egypt man with a hat on",
       description:
-        "You got a bunch of alines on your feet what else do you need",
-      photo: "https://i.ibb.co/pKy1dBk/p-13.jpg",
-      price: 5.99,
-    });
-    const product9 = await createProduct({
-      name: "The egypt man with a hat on (red)",
-      description: "lakdjf",
+        "Have you ever been to the pyramids of Giza? Ok, don't gloat about it. | 100% Cotton | Long Socks | Breathable and Durable Material",
       photo: "https://i.ibb.co/h8bgSRr/p.jpg",
       price: 5.99,
     });
-    const product10 = await createProduct({
-      name: "The egypt man with a hat on (blue)",
-      description:
-        "Have you ever been to the pyramids of Giza? Ok, don't gloat about it.",
-      photo: "https://i.ibb.co/h8bgSRr/p.jpg",
-      price: 5.99,
-    });
-    const product11 = await createProduct({
+
+    await createProduct({
       name: "The strong woman",
-      description: "Lady carrying her son on back",
+      description: "Lady carrying her son on back. | 100% Cotton | Long Socks | Breathable and Durable Material",
       photo: "https://i.ibb.co/1mqFm36/s-l300-2.jpg",
       price: 5.99,
     });
-    const product12 = await createProduct({
+
+    await createProduct({
       name: "The love couple",
-      description: "There are just making out.",
+      description: "There are just making out... | 100% Cotton | Long Socks | Breathable and Durable Material",
       photo: "https://i.ibb.co/wWR0Vt7/s-l300-3.jpg",
       price: 5.99,
     });
 
-    const admin = await createUser({
+    await createUser({
       username: "testadmin",
       password: "password",
       email: "admin@email.com"
     })
-    const updateAdmin = await updateUser(1, {isAdmin: true})
+    await updateUser(1, {isAdmin: true})
 
-    const annie = await createUser({
+    await createUser({
       username: "anniemahl",
       password: "anniemahl",
       email: "annie@email.com"
     })
 
-    const sammy = await createUser({
+    await createUser({
       username: "sammyester",
       password: "sammyester",
       email: "sammy@email.com"
     })
 
-    const niko = await createUser({
+    await createUser({
       username: "nikoboykin",
       password: "nikoboykin",
       email: "niko@email.com"

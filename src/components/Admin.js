@@ -4,7 +4,7 @@ import "../style/Admin.css";
 const API_URL = 'http://localhost:3000/api'
 
 const Admin = (props) => {
-    const { token, setAlert, users, setUsers } = props;
+    const { token, setAlert, users, setUsers, update, setUpdate, products } = props;
     
     const submitProduct = async (event) => {
         const productNameInput = document.getElementById("productName").value;
@@ -19,7 +19,6 @@ const Admin = (props) => {
             description: productDescriptionInput,
             photo: productPhotoInput
         };
-        
         await createProduct(productData)
     }
     
@@ -39,7 +38,8 @@ const Admin = (props) => {
         }).then(response => response.json())
         .then(result => {
             if (!result.error) {
-                setAlert(result.message)
+                setAlert("Successfully added a new sock!")
+                setUpdate(!update)
             } else {
                 setAlert(result.error.message)
             }
@@ -83,7 +83,8 @@ const Admin = (props) => {
       .then(result => {
           console.log(result)
           if (!result.error) {
-              setAlert(result.message)
+              setAlert("Socked edited!")
+              setUpdate(!update)
           } else {
               setAlert(result.error.message)
           }
@@ -112,7 +113,8 @@ const deleteProduct = async (productData) => {
     }).then(response => response.json())
     .then(result => {
         if (!result.error) {
-            setAlert(result.message)
+            setAlert("Sock deleted!")
+            setUpdate(!update)
         } else {
             setAlert(result.error.message)
         }
@@ -142,16 +144,83 @@ useEffect(() => {
       getAllUsers();
   }, [])
 
+  function showContainers(event) {
+    let target = event.target.id
+    let productsContainer = document.getElementById("products-container");
+    let createContainer = document.getElementById("create-container");
+    let editContainer = document.getElementById("edit-container");
+    let deleteContainer = document.getElementById("delete-container");
+    let usersContainer = document.getElementById("users-container");
+    if (target === "create") {
+        createContainer.style.display = "initial";
+        editContainer.style.display = "none";
+        deleteContainer.style.display = "none";
+        usersContainer.style.display = "none";
+        productsContainer.style.display = "initial"
 
-  
+    }
 
+    if (target === "edit") {
+        createContainer.style.display = "none";
+        editContainer.style.display = "initial";
+        deleteContainer.style.display = "none";
+        usersContainer.style.display = "none";
+        productsContainer.style.display = "initial"
+
+    }
+
+    if (target === "delete") {
+        createContainer.style.display = "none";
+        editContainer.style.display = "none";
+        deleteContainer.style.display = "initial";
+        usersContainer.style.display = "none";
+        productsContainer.style.display = "initial"
+    }
+
+    if (target === "users") {
+        createContainer.style.display = "none";
+        editContainer.style.display = "none";
+        deleteContainer.style.display = "none";
+        usersContainer.style.display = "initial";
+        productsContainer.style.display = "none"
+    }
+  }
 
   return (
-      <div className="AdminContainer">
-            <div>
-                <h1 className="header">Admin</h1>
+      <div className="admin-container">
+            <div className="header">
+                <span id="create" onClick={showContainers}>CREATE PRODUCT</span>
+                <span id="edit" onClick={showContainers}>EDIT PRODUCT</span>
+                <span id="delete" onClick={showContainers}>DELETE PRODUCT</span>
+                <span id="users" onClick={showContainers}>VIEW USERS</span>
             </div>
-          <div className="createProduct">
+            <div id="products-container">
+                { products ? <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>PRODUCT ID</th>
+                                <th>NAME</th>
+                                <th>PRICE</th>
+                                <th>DESCRIPTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map((product, index) => {
+                                return(
+                                    <tr key={index}>
+                                        <td>{product.id}</td>
+                                        <td>{product.name}</td>
+                                        <td>{product.price}</td>
+                                        <td>{product.description}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div> : <div className="userMessage">Only Admins Can See This Data!</div>}
+            </div>
+          <div id="create-container">
             <h3 className="titles">Create Product</h3>
             <div id="createProductContainer">
               <form id="product-form">
@@ -170,17 +239,17 @@ useEffect(() => {
                           placeholder='Enter Product Description Here'>
                       </textarea>
                   <br />
-
                 </div>
+                <br />
                 <div>
-                   <button className="submit-button" type="submit" onClick={submitProduct}>SUBMIT</button>
+                   <button className="submit-button" type="submit" onClick={submitProduct}>ADD NEW PRODUCT</button>
                 </div>
               </form>
             </div>
           </div>
           <br />
 
-          <div className="editProduct">
+          <div id="edit-container">
             <h3 className="titles">Edit Product</h3>
             <div id='editProductContainer'>
                 <form id='editProductForm'>
@@ -203,14 +272,15 @@ useEffect(() => {
                       </textarea>
                   <br />
                     </div>
+                    <br />
                     <div>
-                         <button className='submit-button' type="submit" onClick={submitEditedProduct}>SUBMIT</button>
+                         <button className='submit-button' type="submit" onClick={submitEditedProduct}>EDIT PRODUCT</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <div className="deleteProduct">
+        <div id="delete-container">
             <h3 className="titles">Delete Product</h3>
             <div id='deleteProductContainer'>
                 <form id='deleteProductForm'>
@@ -219,32 +289,38 @@ useEffect(() => {
                     <input id="deletedProduct" type="text" placeholder="Enter Product ID" required></input>
                     <br />
                     </div>
+                    <br />
                       <div>
-                        <button className='delete-button' type="button" onClick={submitDeletedProduct}>DELETE</button> 
+                        <button className='delete-button' type="button" onClick={submitDeletedProduct}>DELETE PRODUCT</button> 
                     </div>
                 </form>
             </div>
         </div>
 
-        <div className="allUsers">
-        <h3 className="titles">All Users</h3>
-            {users.length? <div className="usersContainer">
-                {users.map((user, index) => {
-                    return(
-                    <div className='users' key={index}>
-                        <div className='users-info'>
-                            <h3>{user.username}</h3>
-                            <h3>{user.email}</h3>
-                            <h3>{user.id}</h3>
-                        </div>
-                        
-                    </div>
-                )})}
+        <div id="users-container">
+            {users.length ? <div className="usersContainer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>USER ID</th>
+                            <th>USERNAME</th>
+                            <th>EMAIL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users.map((user, index) => {
+                            return(
+                            <tr className='users' key={index}>
+                                <td>{user.id}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                            </tr>
+                        )})}
+                    </tbody>
+                </table>
             </div>: <div className="userMessage">Only Admins Can See This Data!</div>}
         </div>
-
-
-      </div>
+    </div>
   );
 };
 

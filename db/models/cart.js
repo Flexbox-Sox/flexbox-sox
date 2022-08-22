@@ -105,13 +105,13 @@ async function createCartItem({ productId, priceAtPurchase, cartId }) {
 }
 
 // JOIN PRODUCTS TO ITEMS
-async function attachProducttoCartItem(productId) {
+async function attachProducttoCartItem(productId, cartId) {
   try {
     const { rows: [cartItem] } = await client.query(`
       SELECT "cartItems".id AS "cartItemId", "cartItems"."productId", "cartItems"."priceAtPurchase", "cartItems".quantity, products.name, products.description, products.photo 
       FROM "cartItems"
-      JOIN products ON "cartItems"."productId"= products.id AND "cartItems"."productId" = $1
-    `, [productId]);
+      JOIN products ON "cartItems"."productId"= products.id AND "cartItems"."productId" = $1 AND "cartItems"."cartId" =$2
+    `, [productId, cartId]);
     return cartItem;
   } catch (error) {
     throw error;
@@ -133,7 +133,7 @@ async function getAllCartItemsInCart(cartId) {
           
     cart.items = [];
     for (let i = 0; i < cartItemsToAdd.length; i++) {
-      const productInfo = await attachProducttoCartItem(cartItemsToAdd[i].productId)
+      const productInfo = await attachProducttoCartItem(cartItemsToAdd[i].productId, cartId)
       cart.items.push(productInfo)
     }
 
