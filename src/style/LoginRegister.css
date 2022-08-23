@@ -55,8 +55,7 @@
     text-decoration: none;
 }
 
-#register-link:before {
-    text-decoration: none;
+#register-link:link {
     color:black;
 }
 
