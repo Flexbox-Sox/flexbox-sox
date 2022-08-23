@@ -1,0 +1,74 @@
+.mycart-container {
+    min-width: 400px;
+}
+
+.cart-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    position: sticky;
+    top: 82px;
+    background-color: white;
+}
+
+.mycart-container h1{
+    font-size: 50px;
+    margin: 3px;
+    margin-right: 60px;
+    letter-spacing: 5px;
+    text-align: center;
+    align-items: center;
+}
+
+#cart-header-link {
+    font-size: 40px;
+    text-decoration: none;
+    border: solid black 1px;
+    padding: 5px;
+    border-radius: 15px;
+}
+
+#cart-header-link:visited {
+    color: black;
+}
+
+.item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 20px;
+    margin: 10px;
+}
+
+.text {
+    font-size: 30px;
+    text-align: center;
+}
+
+.item-image img {
+    width: 150px;
+    height: auto;
+}
+
+.item-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.item-buttons button {
+    margin: 10px;
+    border-radius: 15px;
+    height: 40px;
+    border: 1px solid black;
+    font-family: 'Alumni Sans Pinstripe', sans-serif;
+    font-size: 20px;
+    background-color: white;
+}
+
+.item-buttons button:hover {
+    cursor: pointer;
+}

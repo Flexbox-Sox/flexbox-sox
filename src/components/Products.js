@@ -36,7 +36,7 @@ const Products = (props) => {
                             <img src={product.photo} alt={product.description}/>
                         </div>
                         <div className='product-buttons'>
-                            <button className='view-product' data-id={product.id} onClick={(event) => handleClick(event)}>VIEW SOCK</button>
+                            <button className='view-product' data-id={product.id} onClick={(event) => handleClick(event)}>VIEW</button>
                             <button className='add-to-cart' onClick={(event) => addToCart(event)}><img src="https://i.ibb.co/T807tDQ/addtocart.png" alt="ADD TO CART" data-id={product.id}/></button>
                         </div>
                     </div>

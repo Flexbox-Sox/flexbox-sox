@@ -52,10 +52,10 @@ const App = () => {
             <h1>FLEXBOX-SOX</h1>
           </div>
           <nav className="nav">
-            <Link to="/">HOME</Link>
-            <Link to="/cart">MY CART</Link>
-            {admin ? <Link to="/admin">ADMIN</Link> : null}
-            <Link to={logText === "LOGIN" ? "/login" : "/logout"} className="nav-link" id="nav-login">{logText}</Link>
+            <Link to="/" id="nav-home">HOME</Link>
+            <Link to="/cart" id="nav-cart">MY CART</Link>
+            {admin ? <Link to="/admin" id="nav-admin">ADMIN</Link> : null}
+            <Link to={logText === "LOGIN" ? "/login" : "/logout"} id="nav-login">{logText}</Link>
           </nav>
         </header>
         <main>
@@ -74,6 +74,9 @@ const App = () => {
               singleProductId={singleProductId}
               products={products}
               setAlert={setAlert}
+              setUpdate={setUpdate}
+              token={token}
+              update={update}
             />
           </Route>
           <Route exact path="/register">

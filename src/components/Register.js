@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
+import "../style/LoginRegister.css"
 const API_URL = 'http://localhost:3000/api'
 
 
@@ -58,10 +59,10 @@ const Register = (props) => {
     }
 
     return (
-        <div className='register-container'>
-            <h2>REGISTER</h2>
+        <div className='register-page-container'>
+            <h1>REGISTER</h1>
             <div id="form-container">
-                <form id='register-form'>
+                <form className='login-register-form'>
                     <div className="inputs">
                         <label>Email:</label>
                         <input id='register-email' type='email' placeholder="Email"></input>

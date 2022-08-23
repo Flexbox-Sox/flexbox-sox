@@ -1,10 +1,41 @@
+.checkout-page-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 23px;
+}
+
+.checkout-page-container h1{
+    width: 100%;
+    font-size: 50px;
+    margin: 3px;
+    text-align: center;
+}
+
+.items-container {
+    margin-right: 60px;
+}
+
+.h2 {
+    margin: 6px;
+}
+
+table, th, td {
+    padding: 8px;
+}
+
 .purchaseButton:hover{
     background-color: green;
 }
 
-.purchaseButton{
-    margin-top: 20px;
-    padding: 10px 25px;
+.purchaseButton, .item-buttons button{
+    margin: 10px;
+    border-radius: 15px;
+    height: 40px;
+    border: 1px solid black;
+    font-family: 'Alumni Sans Pinstripe', sans-serif;
+    font-size: 25px;
+    background-color: white;
 }
 
 label{
@@ -14,6 +45,14 @@ label{
 input{
     margin-top: 5px;
     margin-bottom: 5px;
+    font-family: 'Alumni Sans Pinstripe', sans-serif;
+    font-size: 20px;
+    padding: 0px;
+    width: 200px;
+}
+
+.inputs > * {
+    padding: 8px;
 }
 
 .address{

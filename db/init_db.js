@@ -85,7 +85,7 @@ async function populateInitialData() {
     })
 
     await createProduct({
-      name: "Donut You Want These Socks?!",
+      name: "Donut You Want These?!",
       description: "A pair of green socks with pink frosted donuts all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
       photo: "https://i.ibb.co/Zh9MrM1/donut-sock-removebg-preview.png",
       price: 5.99
