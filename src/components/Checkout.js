@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import "../style/checkout.css"
-const API_URL = 'http://localhost:3000/api'
+const API_URL = 'https://flexbox-sox.herokuapp.com/api'
 
 const Checkout = (props) => {
     const { setAlert, token, cart } = props;

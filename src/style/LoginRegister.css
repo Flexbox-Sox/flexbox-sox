@@ -55,6 +55,11 @@
     text-decoration: none;
 }
 
+#register-link:before {
+    text-decoration: none;
+    color:black;
+}
+
 #register-link:visited {
     color: black;
 }

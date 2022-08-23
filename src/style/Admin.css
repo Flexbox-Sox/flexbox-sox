@@ -36,6 +36,11 @@
     padding-top: 15px;
 }
 
+.header span:before {
+    color: black;
+    text-decoration: none;
+}
+
 .header span:hover {
     cursor: pointer;
     background-color: #DACAA9;
