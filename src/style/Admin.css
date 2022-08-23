@@ -1,12 +1,31 @@
+.admin-container {
+    min-width: 850px;
+}
+
 .titles{
     text-decoration: underline;
     color: navy;
 }
 
 .header{
+    display: flex;
+    flex-wrap: wrap;
     text-align: center;
-    text-decoration: underline;
     color: navy;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.header span {
+    padding: 10px;
+    font-size: 20px;
+    border: solid black 1px;
+    border-radius: 10px;
+}
+
+.header span:hover {
+    cursor: pointer;
 }
 
 .submit-button:hover{
@@ -23,4 +42,25 @@
     font-weight: bold;
     font-size: large;
 }
+
+#products-container {
+    display: initial;
+}
+
+#create-container {
+    display: none;
+}
+
+#edit-container {
+    display: none;
+}
+
+#delete-container {
+    display: none;
+}
+
+#users-container {
+    display: none;
+}
+
 

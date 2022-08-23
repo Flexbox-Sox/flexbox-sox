@@ -40,8 +40,8 @@ apiRouter.use(async (req, res, next) => {
     }
   } else {
     next({
-      name: "AuthorizationHeaderError",
-      message: `Authorization token must start with ${prefix}`,
+      name: "UnauthorizedUserError",
+      message: `You must be logged in to perform this action!`,
     });
   }
 });

@@ -1,25 +1,12 @@
 /* import fonts here */
-
-* {
-  box-sizing: border-box;
-}
-
-:root {
-  /* define variables here */
-  --green: green;
-  --red: red;
-  --blue: blue;
-}
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&display=swap');
 
 html {
   touch-action: manipulation;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
+  font-family: 'Alumni Sans Pinstripe', sans-serif;
 }
 
 #alert-container {

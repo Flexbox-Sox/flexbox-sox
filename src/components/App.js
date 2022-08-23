@@ -12,7 +12,6 @@ import Logout from "./Logout";
 import Admin from "./Admin";
 import Carts from "./Carts";
 import Alert, {showAlert} from "./Alert";
-import Account from "./Account";
 import Checkout from "./Checkout";
 
 
@@ -26,6 +25,7 @@ const App = () => {
   const [cart, setCart] = useState({});
   const [alert, setAlert] = useState("");
   const [users, setUsers] = useState([]);
+  const [update, setUpdate] = useState(false)
   const isMounted = useRef(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const App = () => {
           showAlert()
       } else {
           isMounted.current = true;
-      }}, [alert]);
+      }}, [alert, update]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,19 +42,18 @@ const App = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [update]);
 
   return (
     <Router>
       <div className="app-container">
-        <header>
+        <header className="app-header">
           <div className="title">
             <h1>FLEXBOX-SOX</h1>
           </div>
           <nav className="nav">
             <Link to="/">HOME</Link>
-            <Link to="/cart">MY CART ({cart.items ? cart.items.length: 0})</Link>
-            {userName && !admin ? <Link to="/account">ACCOUNT</Link> : null}
+            <Link to="/cart">MY CART</Link>
             {admin ? <Link to="/admin">ADMIN</Link> : null}
             <Link to={logText === "LOGIN" ? "/login" : "/logout"} className="nav-link" id="nav-login">{logText}</Link>
           </nav>
@@ -66,6 +65,8 @@ const App = () => {
               setSingleProductId={setSingleProductId}
               token={token}
               setAlert={setAlert}
+              update={update}
+              setUpdate={setUpdate}
             />
           </Route>
           <Route exact path="/singleProduct">
@@ -98,27 +99,30 @@ const App = () => {
               setAdmin={setAdmin}
             />
           </Route>
-          <Route exact path="/account">
-            <Account />
-          </Route>
           <Route exact path="/admin">
             <Admin 
+              products={products}
               token={token} 
               setAlert={setAlert}
               users={users}
-              setUsers={setUsers} />
+              setUsers={setUsers}
+              update={update}
+              setUpdate={setUpdate} />
           </Route>
           <Route exact path="/cart">
             <Carts 
               token={token}
               cart={cart}
               setCart={setCart}
-              setAlert={setAlert} />
+              setAlert={setAlert}
+              update={update}
+              setUpdate={setUpdate} />
           </Route>
           <Route exact path="/checkout">
             <Checkout 
               setAlert={setAlert}
-              token={token} />
+              token={token}
+              cart={cart} />
           </Route>
         </main>
         <footer>
