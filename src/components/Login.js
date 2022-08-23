@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import "../style/LoginRegister.css"
-const API_URL = 'http://localhost:3000/api'
+const API_URL = 'https://flexbox-sox.herokuapp.com/api'
 
 const Login = (props) => {
     const {  setUserName, setToken, setLogText, setAlert, setAdmin } = props;

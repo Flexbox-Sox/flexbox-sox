@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "../style/Admin.css";
 
-const API_URL = 'http://localhost:3000/api'
+const API_URL = 'https://flexbox-sox.herokuapp.com/api'
 
 const Admin = (props) => {
     const { token, setAlert, users, setUsers, update, setUpdate, products } = props;

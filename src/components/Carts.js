@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { addSingleProductToCart } from "../axios-services";
 import '../style/Carts.css'
 
-const API_URL = 'http://localhost:3000/api'
+const API_URL = 'https://flexbox-sox.herokuapp.com/api'
 
 
 const Carts = (props) => {
