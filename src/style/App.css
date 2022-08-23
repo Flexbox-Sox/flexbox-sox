@@ -45,6 +45,10 @@ header h1 {
   border-bottom: 1px solid black;
 }
 
+.nav > *:before{
+  color: black;
+}
+
 #nav-home:hover, #nav-login:hover, #nav-cart:hover, #nav-admin:hover {
   color: #FCF4E3;
   border-bottom: 1px solid #FCF4E3;
