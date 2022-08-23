@@ -45,8 +45,11 @@
     color: #FCF4E3;
 }
 
-
 #cart-header-link:visited {
+    color: black;
+}
+
+#cart-header-link:link {
     color: black;
 }
 
