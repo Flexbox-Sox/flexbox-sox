@@ -9,6 +9,10 @@ body {
   font-family: 'Alumni Sans Pinstripe', sans-serif;
 }
 
+main {
+  width: 100%;
+}
+
 #alert-container {
   padding: 20px;
   background-color: black;

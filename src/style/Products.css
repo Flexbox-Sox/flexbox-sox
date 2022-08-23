@@ -17,6 +17,10 @@
     justify-content: space-evenly;
 }
 
+.product-info > * {
+    font-size: 25px;
+}
+
 .product-image {
     display: flex;
     width: 100%;
@@ -35,28 +39,77 @@
     margin: 5px;
 }
 
+.product-buttons button {
+    font-family: 'Alumni Sans Pinstripe', sans-serif;
+    font-size: 25px;
+    letter-spacing: 3px;
+    width: 70px;
+    height: 45px;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 15px;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.product-buttons button:hover {
+    cursor:pointer;
+}
+
+.add-to-cart {
+    padding-top: 7px;
+}
+
 .add-to-cart img {
     width: 30px;
 }
 
+.single-product-container {
+    width: 100%;
+}
+
 .single-product-info {
+    justify-content: space-evenly;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.single-product-info h2, .single-product-info span {
+    font-size: 30px;
+    margin-right: 8px;
+    align-items: center;
 }
 
 .single-product-info p {
-    width: 75%;
+    text-align: center;
+    width: 100%;
+    font-size: 25px;
+    margin-top: 0px;
 }
 
 .single-product-image {
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
 .single-product-image img {
     width: 350px;
     height: auto;
+}
+
+.single-product-add-to-cart button {
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: white;
+    width: 60px;
+    height: 45px;
+}
+
+.single-product-add-to-cart button:hover {
+    cursor: pointer;
 }
 
 

@@ -194,9 +194,11 @@ useEffect(() => {
                 <span id="delete" onClick={showContainers}>DELETE PRODUCT</span>
                 <span id="users" onClick={showContainers}>VIEW USERS</span>
             </div>
+            <div className="flex-container">
+
             <div id="products-container">
                 { products ? <div>
-                    <table>
+                    <table className="products-table">
                         <thead>
                             <tr>
                                 <th>PRODUCT ID</th>
@@ -220,107 +222,112 @@ useEffect(() => {
                     </table>
                 </div> : <div className="userMessage">Only Admins Can See This Data!</div>}
             </div>
-          <div id="create-container">
-            <h3 className="titles">Create Product</h3>
-            <div id="createProductContainer">
-              <form id="product-form">
-                <div className="inputs">
-                  <label>Product Name:</label>
-                  <input id="productName" type="text" placeholder="Enter Product Name" required></input>
-                  <br />
-                  <label>Price: $</label>
-                  <input id="productPrice" type="Number" step="0.01" placeholder="Enter Product Price" required></input>
-                  <br />
-                  <label>Product Photo</label>
-                  <input id="productPhoto" type="text" placeholder="Enter Photo URL" required></input>
-                  <br />
-                  <label>Product Description:</label>
-                  <textarea id="productDescription" rows={2} cols={40}
-                          placeholder='Enter Product Description Here'>
-                      </textarea>
-                  <br />
-                </div>
-                <br />
-                <div>
-                   <button className="submit-button" type="submit" onClick={submitProduct}>ADD NEW PRODUCT</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <br />
-
-          <div id="edit-container">
-            <h3 className="titles">Edit Product</h3>
-            <div id='editProductContainer'>
-                <form id='editProductForm'>
-                    <div className='inputs'>
-                    <label>Product ID:</label>
-                  <input id="editProductId" type="text" placeholder="Enter Product ID" required></input>
-                  <br />
+        <div className="admin-forms-container">
+            <div id="create-container">
+                <h3 className="titles">Create Product</h3>
+                <div id="createProductContainer">
+                <form id="product-form">
+                    <div className="inputs">
                     <label>Product Name:</label>
-                  <input id="editProductName" type="text" placeholder="Edit Product Name" required></input>
-                  <br />
-                  <label>Price: $</label>
-                  <input id="editProductPrice" type="Number" step="0.01" placeholder="Edit Product Price" required></input>
-                  <br />
-                  <label>Product Photo</label>
-                  <input id="editProductPhoto" type="text" placeholder="Enter Photo URL" required></input>
-                  <br />
-                  <label>Product Description:</label>
-                  <textarea id="editProductDescription" rows={2} cols={40}
-                          placeholder='Edit Product Description Here'>
-                      </textarea>
-                  <br />
+                    <input id="productName" type="text" placeholder="Enter Product Name" required></input>
+                    <br />
+                    <label>Price: $</label>
+                    <input id="productPrice" type="Number" step="0.01" placeholder="Enter Product Price" required></input>
+                    <br />
+                    <label>Product Photo</label>
+                    <input id="productPhoto" type="text" placeholder="Enter Photo URL" required></input>
+                    <br />
+                    <label>Product Description:</label>
+                    <textarea id="productDescription" rows={2} cols={40}
+                            placeholder='Enter Product Description Here'>
+                        </textarea>
+                    <br />
                     </div>
                     <br />
                     <div>
-                         <button className='submit-button' type="submit" onClick={submitEditedProduct}>EDIT PRODUCT</button>
+                    <button className="admin-submit-button" type="submit" onClick={submitProduct}>ADD NEW PRODUCT</button>
                     </div>
                 </form>
+                </div>
             </div>
+            <br />
+
+            <div id="edit-container">
+                <h3 className="titles">Edit Product</h3>
+                <div id='editProductContainer'>
+                    <form id='editProductForm'>
+                        <div className='inputs'>
+                        <label>Product ID:</label>
+                    <input id="editProductId" type="text" placeholder="Enter Product ID" required></input>
+                    <br />
+                        <label>Product Name:</label>
+                    <input id="editProductName" type="text" placeholder="Edit Product Name" required></input>
+                    <br />
+                    <label>Price: $</label>
+                    <input id="editProductPrice" type="Number" step="0.01" placeholder="Edit Product Price" required></input>
+                    <br />
+                    <label>Product Photo</label>
+                    <input id="editProductPhoto" type="text" placeholder="Enter Photo URL" required></input>
+                    <br />
+                    <label>Product Description:</label>
+                    <textarea id="editProductDescription" rows={2} cols={40}
+                            placeholder='Edit Product Description Here'>
+                        </textarea>
+                    <br />
+                        </div>
+                        <br />
+                        <div>
+                            <button className='admin-submit-button' type="submit" onClick={submitEditedProduct}>EDIT PRODUCT</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="delete-container">
+                <h3 className="titles">Delete Product</h3>
+                <div id='deleteProductContainer'>
+                    <form id='deleteProductForm'>
+                        <div className='inputs'>
+                        <label>Product ID:</label>
+                        <input id="deletedProduct" type="text" placeholder="Enter Product ID" required></input>
+                        <br />
+                        </div>
+                        <br />
+                        <div>
+                            <button className='admin-submit-button' type="button" onClick={submitDeletedProduct}>DELETE PRODUCT</button> 
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
 
-        <div id="delete-container">
-            <h3 className="titles">Delete Product</h3>
-            <div id='deleteProductContainer'>
-                <form id='deleteProductForm'>
-                    <div className='inputs'>
-                    <label>Product ID:</label>
-                    <input id="deletedProduct" type="text" placeholder="Enter Product ID" required></input>
-                    <br />
-                    </div>
-                    <br />
-                      <div>
-                        <button className='delete-button' type="button" onClick={submitDeletedProduct}>DELETE PRODUCT</button> 
-                    </div>
-                </form>
-            </div>
-        </div>
+            </div>                
 
-        <div id="users-container">
-            {users.length ? <div className="usersContainer">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>USER ID</th>
-                            <th>USERNAME</th>
-                            <th>EMAIL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user, index) => {
-                            return(
-                            <tr className='users' key={index}>
-                                <td>{user.id}</td>
-                                <td>{user.username}</td>
-                                <td>{user.email}</td>
+            <div id="users-container">
+                {users.length ? <div className="usersContainer">
+                    <table className="users-table">
+                        <thead>
+                            <tr>
+                                <th>USER ID</th>
+                                <th>USERNAME</th>
+                                <th>EMAIL</th>
                             </tr>
-                        )})}
-                    </tbody>
-                </table>
-            </div>: <div className="userMessage">Only Admins Can See This Data!</div>}
+                        </thead>
+                        <tbody>
+                            {users.map((user, index) => {
+                                return(
+                                <tr className='users' key={index}>
+                                    <td>{user.id}</td>
+                                    <td>{user.username}</td>
+                                    <td>{user.email}</td>
+                                </tr>
+                            )})}
+                        </tbody>
+                    </table>
+                </div>: <div className="userMessage">Only Admins Can See This Data!</div>}
+            </div>
         </div>
-    </div>
   );
 };
 

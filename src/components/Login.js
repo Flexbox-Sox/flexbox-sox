@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import "../style/LoginRegister.css"
 const API_URL = 'http://localhost:3000/api'
 
 const Login = (props) => {
@@ -46,10 +47,10 @@ const Login = (props) => {
     }
 
     return (
-        <div className="login">
+        <div className="login-page-container">
             <h1>LOGIN</h1>
             <div id='login-container'>
-                <form id='login-form'>
+                <form className='login-register-form'>
                     <div className='inputs'>
                         <label>Username:</label>
                         <input id='login-username' type='text' placeholder="Enter Username" required></input>
@@ -58,13 +59,13 @@ const Login = (props) => {
                         <input id='login-password' type='password' placeholder="Enter Password" required></input>
                         <br />
                     </div>
-                    <div>
-                        <button className='submit-button' type="submit" onClick={submitLogin}>SUBMIT</button>
+                    <div id="register-link-container">
+                        <Link to="/register" id="register-link">Need an account? Click here to register!</Link>
+                    </div>
+                    <div className='submit-button' >
+                        <button type="submit" onClick={submitLogin}>SUBMIT</button>
                     </div>
                 </form>
-                <div id="register-link-container">
-                    <Link to="/register" id="register-link">Click here to register!</Link>
-                </div>
             </div>
         </div>
     )

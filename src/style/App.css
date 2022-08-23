@@ -27,7 +27,7 @@ header h1 {
 
 .nav > *{
   padding-left: 10px;
-  font-size: 30px;
+  font-size: 40px;
   text-decoration: none;
 }
 
@@ -38,6 +38,10 @@ header h1 {
 
 .nav > *:visited{
   color: black;
+}
+
+.nav > *:active {
+  border-bottom: 1px solid black;
 }
 
 #alert-container {

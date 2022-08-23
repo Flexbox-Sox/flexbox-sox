@@ -1,0 +1,52 @@
+.login-page-container, .register-page-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.login-page-container h1, .register-page-container h1 {
+    font-size: 50px;
+    margin: 3px;
+    margin-right: 60px;
+    letter-spacing: 5px;
+    text-align: center;
+    align-items: center;
+    width: 100%;
+}
+
+.login-register-form {
+    text-align: left;
+    width: 100%;
+}
+
+.inputs {
+    font-size: 25px;
+}
+
+.submit-button button {
+    margin: 10px;
+    border-radius: 15px;
+    height: 40px;
+    border: 1px solid black;
+    font-family: 'Alumni Sans Pinstripe', sans-serif;
+    font-size: 25px;
+    background-color: white;
+}
+
+#register-link-container {
+    font-size: 25px;
+    text-align: center;
+    margin: 10px;
+}
+
+#register-link {
+    text-decoration: none;
+}
+
+#register-link:visited {
+    color: black;
+}
+
+#register-link:hover {
+    border-bottom: 1px solid black;
+}

@@ -1,10 +1,16 @@
 .admin-container {
-    min-width: 850px;
+    width: 100%;
+    text-align: left;
+    margin: 0px;
+}
+
+.flex-container {
+    display: flex;
 }
 
 .titles{
-    text-decoration: underline;
-    color: navy;
+    text-align: center;
+    font-size: 30px;
 }
 
 .header{
@@ -18,33 +24,51 @@
 }
 
 .header span {
-    padding: 10px;
-    font-size: 20px;
-    border: solid black 1px;
-    border-radius: 10px;
+    margin: 10px;
+    border-radius: 15px;
+    height: 40px;
+    border: 1px solid black;
+    font-family: 'Alumni Sans Pinstripe', sans-serif;
+    font-size: 25px;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 15px;
 }
 
 .header span:hover {
     cursor: pointer;
 }
 
-.submit-button:hover{
-    background-color: green;
-    
+textarea {
+    font-family: 'Alumni Sans Pinstripe', sans-serif;
+    font-size: 20px;
 }
 
-.delete-button:hover{
-   background-color: red;
+.admin-submit-button {
+    margin: 10px;
+    border-radius: 15px;
+    height: 40px;
+    border: 1px solid black;
+    font-family: 'Alumni Sans Pinstripe', sans-serif;
+    font-size: 25px;
+    background-color: white;
+}
+
+.submit-button button:hover{
+    background-color: green;
+    
 }
 
 .userMessage{
     color: red;
     font-weight: bold;
-    font-size: large;
+    font-size: 25px;
 }
 
 #products-container {
     display: initial;
+    text-align: left;
 }
 
 #create-container {
@@ -61,6 +85,14 @@
 
 #users-container {
     display: none;
+}
+
+.products-table, .users-table {
+    font-size: 18px;
+}
+
+td {
+    word-break: break-word;
 }
 
 
