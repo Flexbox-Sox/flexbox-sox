@@ -25,7 +25,7 @@ const SingleProduct = (props) => {
                     <h2>{singleProduct.name}</h2>
                     <div className='single-product-add-to-cart'>
                         <span>${singleProduct.price}</span>
-                        <button className='add-to-cart' onClick={addToCart}><img data-id={singleProduct.id} src="https://i.ibb.co/T807tDQ/addtocart.png" alt="ADD TO CART" /></button>
+                        <button className='add-to-cart' data-id={product.id} onClick={addToCart}><img data-id={singleProduct.id} src="https://i.ibb.co/T807tDQ/addtocart.png" alt="ADD TO CART" /></button>
                     </div>
                     <p>{singleProduct.description}</p>
                 </div>

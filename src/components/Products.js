@@ -37,7 +37,7 @@ const Products = (props) => {
                         </div>
                         <div className='product-buttons'>
                             <button className='view-product' data-id={product.id} onClick={(event) => handleClick(event)}>VIEW</button>
-                            <button className='add-to-cart' onClick={(event) => addToCart(event)}><img src="https://i.ibb.co/T807tDQ/addtocart.png" alt="ADD TO CART" data-id={product.id}/></button>
+                            <button className='add-to-cart' onClick={(event) => addToCart(event)} data-id={product.id}><img src="https://i.ibb.co/T807tDQ/addtocart.png" alt="ADD TO CART" data-id={product.id}/></button>
                         </div>
                     </div>
                 )})}
