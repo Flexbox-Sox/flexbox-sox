@@ -57,58 +57,114 @@ async function buildTables() {
 async function populateInitialData() {
   try {
     await createProduct({
-      name: "Annie's Face Sock",
+      name: "Our Best Selling Sock",
       description: "A pair of black socks with Annie's face all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
       photo: "https://i.ibb.co/dP5cx1T/annie-sock-removebg-preview.png",
       price: 99.99
     })
 
     await createProduct({
-      name: "I Heart KC",
-      description: "A pair of gray socks with red accents with the kc heart logo all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/j8jkHcV/heartkc-sock-removebg-preview.png",
+      name: "CHIEFS KINGDOM",
+      description: "Perfect socks to wear on red friday! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/ZNPd15d/IMG-4865-removebg-preview.png",
       price: 5.99
     })
 
     await createProduct({
       name: "Who Wants Pizza??",
       description: "A pair of turquoise socks with gray accents with delicious pepperoni pizza slices all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/Qky9CY0/pizza-sock-removebg-preview.png",
+      photo: "https://i.ibb.co/n85pS7C/IMG-4862-removebg-preview.png",
       price: 5.99
     })
 
     await createProduct({
-      name: "Dill Pickle Feet",
-      description: "A pair of mustard colored socks with navy accents with pickles all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/RTpykS2/pickle-sock-removebg-preview.png",
+      name: "Cornhole, so stupid, so fun",
+      description: "The perfect socks to wear while playing a fun stupid game of cornhole! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/P95SB5G/IMG-4863-removebg-preview.png",
       price: 5.99
     })
 
     await createProduct({
       name: "Donut You Want These?!",
       description: "A pair of green socks with pink frosted donuts all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/Zh9MrM1/donut-sock-removebg-preview.png",
+      photo: "https://i.ibb.co/rbwR1vW/IMG-4861-removebg-preview.png",
       price: 5.99
     })
 
     await createProduct({
-      name: "Funky Bananas",
-      description: "A pair of red socks with gray accents with bananas all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/tKHYvBn/banana-sock-removebg-preview.png",
+      name: "Happy Feet!",
+      description: "A pair of red socks with blue accents with penguins all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/SRT1TTB/IMG-4864-1-removebg-preview.png",
       price: 5.99
     })
 
     await createProduct({
-      name: "Yummy Avocados",
+      name: "AvoSOCKos",
       description: "A pair of blue socks with sliced avocados all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/j5x8tZm/avocado-sock-removebg-preview.png",
+      photo: "https://i.ibb.co/VwLGC4Q/IMG-4874-removebg-preview.png",
       price: 5.99
     })
 
     await createProduct({
       name: "A Pair of Lemons",
       description: "A pair of purple socks with delicious lemons all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/QmfD1yC/lemon-sock-removebg-preview.png",
+      photo: "https://i.ibb.co/M8WJ62v/IMG-4868-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Polkasocks",
+      description: "A pair of navy socks with white polkadots! Easy to dress up or down! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/qMH7kpr/IMG-4860-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Pac-Man Villians!",
+      description: "A pair of black socks with Pac-Man ghosts flying around! A playful pair of socks perfect for a day of gaming! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/0JXwQvW/IMG-4866-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Happy Hour",
+      description: "A pair of black socks with delicious martinis all over them! Wear these on your date night! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/C6T9RBy/IMG-4867-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Boat Day",
+      description: "A pair of black socks with colorful kayak paddles all over them! Great for after a long day of paddling! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/KKyLQgq/IMG-4869-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Soccoli",
+      description: "A pair of navy socks with yummy broccoli all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/7rYmggv/IMG-4870-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Llama or Alpaca?",
+      description: "A pair of black socks with llamas or alpacas... we aren't sure... that's for you to decide! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/ZXGZKGb/IMG-4871-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "Saillllllll",
+      description: "A pair of navy socks with anchors all over them! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/8gG2Bnx/IMG-4872-removebg-preview.png",
+      price: 5.99
+    })
+
+    await createProduct({
+      name: "MIZ-ZOU",
+      description: "Go Tigers!! | 100% Cotton | Long Socks | Breathable and Durable Material",
+      photo: "https://i.ibb.co/P9bG8mk/IMG-4873-removebg-preview.png",
       price: 5.99
     })
 
@@ -124,21 +180,6 @@ async function populateInitialData() {
       description:
         "Enjoy a fruity flavor on your feet all day #tastetheRainbow | 100% Cotton | Long Socks | Breathable and Durable Material",
       photo: "https://i.ibb.co/T1Zg4tK/p-1.jpg",
-      price: 5.99,
-    });
-
-    await createProduct({
-      name: "The egypt man with a hat on",
-      description:
-        "Have you ever been to the pyramids of Giza? Ok, don't gloat about it. | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/h8bgSRr/p.jpg",
-      price: 5.99,
-    });
-
-    await createProduct({
-      name: "The strong woman",
-      description: "Lady carrying her son on back. | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/1mqFm36/s-l300-2.jpg",
       price: 5.99,
     });
 
