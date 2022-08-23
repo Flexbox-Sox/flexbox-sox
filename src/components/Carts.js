@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:3000/api'
 
 
 const Carts = (props) => {
-  const { token, cart, setCart, setAlert, setUpdate, update } = props;
+  const { token, cart, setCart, setAlert, setUpdate, update, userName } = props;
 
   useEffect(() => {
     async function fetchCart() {
@@ -90,7 +90,7 @@ const Carts = (props) => {
   return (
     <div className="mycart-container">
       <div className="cart-header">
-        <h1>MY CART</h1>
+        {userName ? <h1>{userName}'s CART</h1> : <h1>MY CART</h1>}
         <Link to="/checkout" id="cart-header-link">CHECKOUT</Link>
       </div>
       { cart.items && cart.items.length ? <div className='cart-container'>

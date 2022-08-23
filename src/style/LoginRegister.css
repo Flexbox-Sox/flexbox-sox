@@ -33,6 +33,18 @@
     background-color: white;
 }
 
+.submit-button button:hover {
+    cursor: pointer;
+    background-color: #DACAA9;
+    color: #FCF4E3;
+}
+
+.submit-button button:active {
+    cursor: pointer;
+    background-color: #51698C;
+    color: #FCF4E3;
+}
+
 #register-link-container {
     font-size: 25px;
     text-align: center;

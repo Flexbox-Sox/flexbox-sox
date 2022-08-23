@@ -32,6 +32,10 @@
     height: auto;
 }
 
+.product img:hover {
+    transform:scale(1.2);
+}
+
 .product-buttons {
     display: flex;
     width: 100%;
@@ -54,6 +58,14 @@
 
 .product-buttons button:hover {
     cursor:pointer;
+    background-color: #DACAA9;
+    color: #FCF4E3;
+}
+
+.product-buttons button:active {
+    cursor:pointer;
+    background-color: #51698C;
+    color: #FCF4E3;
 }
 
 .add-to-cart {
@@ -110,6 +122,14 @@
 
 .single-product-add-to-cart button:hover {
     cursor: pointer;
+    background-color: #DACAA9;
+    color: #FCF4E3;
+}
+
+.single-product-add-to-cart button:active {
+    cursor:pointer;
+    background-color: #51698C;
+    color: #FCF4E3;
 }
 
 

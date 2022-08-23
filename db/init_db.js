@@ -16,11 +16,10 @@ async function buildTables() {
     await client.query(`
         CREATE TABLE users(
           id SERIAL PRIMARY KEY,
-          email VARCHAR(255) NOT NULL,
-          username VARCHAR(255) NOT NULL,
+          email VARCHAR(255) UNIQUE NOT NULL,
+          username VARCHAR(255) UNIQUE NOT NULL,
           password VARCHAR(255) NOT NULL,
-          "isAdmin" BOOLEAN DEFAULT FALSE,
-          UNIQUE (username, email)
+          "isAdmin" BOOLEAN DEFAULT FALSE
         );
 
         CREATE TABLE products(
@@ -167,28 +166,6 @@ async function populateInitialData() {
       photo: "https://i.ibb.co/P9bG8mk/IMG-4873-removebg-preview.png",
       price: 5.99
     })
-
-    await createProduct({
-      name: "RainBow Feet",
-      description: "100% Cotton | long socks | breathable material | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/LtLzGgm/p-3.jpg",
-      price: 5.99,
-    });
-
-    await createProduct({
-      name: "Fruity Pebbles with out milk",
-      description:
-        "Enjoy a fruity flavor on your feet all day #tastetheRainbow | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/T1Zg4tK/p-1.jpg",
-      price: 5.99,
-    });
-
-    await createProduct({
-      name: "The love couple",
-      description: "There are just making out... | 100% Cotton | Long Socks | Breathable and Durable Material",
-      photo: "https://i.ibb.co/wWR0Vt7/s-l300-3.jpg",
-      price: 5.99,
-    });
 
     await createUser({
       username: "testadmin",

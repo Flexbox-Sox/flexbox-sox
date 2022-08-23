@@ -25,7 +25,15 @@ table, th, td {
 }
 
 .purchaseButton:hover{
-    background-color: green;
+    cursor: pointer;
+    background-color: #DACAA9;
+    color: #FCF4E3;
+}
+
+.purchaseButton:active {
+    cursor: pointer;
+    background-color: #51698C;
+    color: #FCF4E3;
 }
 
 .purchaseButton, .item-buttons button{

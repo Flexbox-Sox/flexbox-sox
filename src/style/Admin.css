@@ -19,7 +19,7 @@
     text-align: center;
     color: navy;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin: 20px;
 }
 
@@ -38,6 +38,14 @@
 
 .header span:hover {
     cursor: pointer;
+    background-color: #DACAA9;
+    color: #FCF4E3;  
+}
+
+.header span:active {
+    cursor: pointer;
+    background-color: #51698C;
+    color: #FCF4E3;  
 }
 
 textarea {
@@ -55,9 +63,16 @@ textarea {
     background-color: white;
 }
 
-.submit-button button:hover{
-    background-color: green;
-    
+.admin-submit-button:hover{
+    cursor: pointer;
+    background-color: #DACAA9;
+    color: #FCF4E3;    
+}
+
+.admin-submit-button:active{
+    cursor: pointer;
+    background-color: #51698C;
+    color: #FCF4E3;    
 }
 
 .userMessage{
