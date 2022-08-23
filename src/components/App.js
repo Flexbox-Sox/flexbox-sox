@@ -49,7 +49,7 @@ const App = () => {
       <div className="app-container">
         <header className="app-header">
           <div className="title">
-            <h1>FLEXBOX-SOX</h1>
+            <Link to="/" id="headerh1"><h1 >FLEXBOX-SOX</h1></Link>
           </div>
           <nav className="nav">
             <Link to="/" id="nav-home">HOME</Link>
@@ -119,7 +119,8 @@ const App = () => {
               setCart={setCart}
               setAlert={setAlert}
               update={update}
-              setUpdate={setUpdate} />
+              setUpdate={setUpdate}
+              userName={userName} />
           </Route>
           <Route exact path="/checkout">
             <Checkout 

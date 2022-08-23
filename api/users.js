@@ -1,6 +1,6 @@
 const express = require("express");
 const usersRouter = express.Router();
-const { getUserById, getUserByUsername, createUser, deleteUser, getAllUsers } = require("../db/models/user");
+const { getUserById, getUserByUsername, createUser, deleteUser, getAllUsers, getUserByEmail } = require("../db/models/user");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const { requireUser } = require('./utils');
@@ -40,6 +40,16 @@ usersRouter.post("/register", async (req, res, next) => {
         message: `User ${username} is already taken.`,
       });
     }
+
+    const userGetEmail = await getUserByEmail(email);
+    if (userGetEmail) {
+      next({
+        error: "Error",
+        name: "EmailExistsError",
+        message: `A user with ${email} already exists`
+      })
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const userObj = { username, password:hashedPassword, email}
     const token = jwt.sign(userObj, JWT_SECRET);

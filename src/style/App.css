@@ -13,7 +13,7 @@ header {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-evenly;
-  background-color: lightgoldenrodyellow;
+  background-color: #A9BCD9;
   top: 0;
   margin: 0;
   position: sticky;
@@ -23,6 +23,15 @@ header h1 {
   margin: 5px;
   font-size: 60px;
   letter-spacing: 8px;
+}
+
+#headerh1 {
+  text-decoration: none;
+}
+
+#headerh1:visited {
+  color: black;
+  text-decoration: none;
 }
 
 .nav > *{
@@ -36,23 +45,16 @@ header h1 {
   border-bottom: 1px solid black;
 }
 
+#nav-home:hover, #nav-login:hover, #nav-cart:hover, #nav-admin:hover {
+  color: #FCF4E3;
+  border-bottom: 1px solid #FCF4E3;
+
+}
+
 .nav > *:visited{
   color: black;
 }
 
 .nav > *:active {
   border-bottom: 1px solid black;
-}
-
-#alert-container {
-  padding: 20px;
-  background-color: black;
-  color: white;
-  display: none;
-  width: fit-content;
-  margin: auto;
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  right: 0;
 }

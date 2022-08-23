@@ -6,7 +6,7 @@ async function createUser({ username, password, email}){
     const { rows: [user]} = await client.query(`
       INSERT INTO users(username, password, email)
       VALUES($1, $2, $3)
-      ON CONFLICT(email, username) DO NOTHING
+      ON CONFLICT (username) DO NOTHING
       RETURNING *;
     `, [username, password, email])
     return user;
@@ -57,6 +57,20 @@ async function getUserByUsername(username) {
   }
 }
 
+async function getUserByEmail(email) {
+  try {
+    const { rows: [ user ] } = await client.query(`
+      SELECT *
+      FROM users
+      WHERE email=$1
+    `, [ email ]);
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function updateUser(id, fields = {}) {
   const setString = Object.keys(fields).map(
     (key, index) => `"${ key }"=$${ index + 1 }`
@@ -99,5 +113,6 @@ module.exports = {
   getUserByUsername,
   updateUser,
   deleteUser,
-  createUser
+  createUser,
+  getUserByEmail
 };

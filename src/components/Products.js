@@ -33,7 +33,7 @@ const Products = (props) => {
                             <h3>${product.price}</h3>
                         </div>
                         <div className='product-image'>
-                            <img src={product.photo} alt={product.description}/>
+                            <img data-id={product.id} onClick={(event) => handleClick(event)} src={product.photo} alt={product.description}/>
                         </div>
                         <div className='product-buttons'>
                             <button className='view-product' data-id={product.id} onClick={(event) => handleClick(event)}>VIEW</button>

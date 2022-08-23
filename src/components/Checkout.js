@@ -8,7 +8,8 @@ const Checkout = (props) => {
     const history = useHistory();
     let totalCost = 0.00;
     
-    const checkoutProduct = async () => {
+    const checkoutProduct = async (event) => {
+        event.preventDefault()
         const orderStatus = "completed"
         if (token) {
             await fetch(`${API_URL}/carts/singleCart`, {
@@ -95,13 +96,13 @@ const Checkout = (props) => {
                     <h2 className='h2'>Payment Information</h2>
                     <div className="inputs">
                         <label>Card Holder Name:</label>
-                        <input id="nameOnCard" type="text" placeholder="Enter Name" required></input>
+                        <input id="nameOnCard" type="text" placeholder="Enter Name"></input>
                         <br />
                         <label>Card Number:</label>
-                        <input id="cardNumber" type="text" placeholder="Enter Card Number" required></input>
+                        <input id="cardNumber" type="text" placeholder="Enter Card Number"></input>
                         <br />
                         <label>CCV:</label>
-                        <input id="CCV" type="text" placeholder="Enter CCV" required></input>
+                        <input id="CCV" type="text" placeholder="Enter CCV"></input>
                         <br />
                         <label>Address:</label>
                         <input className="address" placeholder='Enter Adress Here'></input>

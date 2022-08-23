@@ -8,9 +8,11 @@
     align-items: center;
     justify-content: center;
     margin: 10px;
+    margin-top: 0px;
+    padding: 10px;
     position: sticky;
     top: 82px;
-    background-color: white;
+    background-color: #FCF4E3;
 }
 
 .mycart-container h1{
@@ -28,7 +30,21 @@
     border: solid black 1px;
     padding: 5px;
     border-radius: 15px;
+    background-color: white;
 }
+
+#cart-header-link:hover {
+    cursor: pointer;
+    background-color: #DACAA9;
+    color: #FCF4E3;
+}
+
+#cart-header-link:active {
+    cursor: pointer;
+    background-color: #51698C;
+    color: #FCF4E3;
+}
+
 
 #cart-header-link:visited {
     color: black;
@@ -71,4 +87,11 @@
 
 .item-buttons button:hover {
     cursor: pointer;
+    background-color: #DACAA9;
+    color: #FCF4E3;
+}
+.item-buttons button:active {
+    cursor:pointer;
+    background-color: #51698C;
+    color: #FCF4E3;
 }

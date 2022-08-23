@@ -41,9 +41,9 @@ const Register = (props) => {
         event.preventDefault();
         
         if (usernameInput === "" || password1Input === "" || password2Input === "" || emailInput === "") {
-            alert("Make sure to fill out each field.");
+            setAlert("Make sure to fill out each field.");
         } else if (usernameInput.length < 6 || password1Input.length < 8) {
-            alert("Username must be at least 6 characters long and password must be at least 8 characters long.")
+            setAlert("Username must be at least 6 characters long and password must be at least 8 characters long.")
         } else if (password1Input === password2Input) {
             userData = {
                 username: usernameInput,
@@ -54,7 +54,7 @@ const Register = (props) => {
             await postUser(userData);
             
         } else {
-            alert("The passwords you entered do not match, try again!")
+            setAlert("The passwords you entered do not match, try again!")
         } 
     }
 
