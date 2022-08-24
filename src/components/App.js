@@ -26,6 +26,7 @@ const App = () => {
   const [alert, setAlert] = useState("");
   const [users, setUsers] = useState([]);
   const [update, setUpdate] = useState(false)
+  const [stopInterval, setStopInterval] = useState(false)
   const isMounted = useRef(false);
 
   useEffect(() => {
@@ -50,6 +51,7 @@ const App = () => {
         <header className="app-header">
           <div className="title">
             <Link to="/" id="headerh1"><h1 >FLEXBOX-SOX</h1></Link>
+            <img id="logo" src="https://i.ibb.co/CQL4cpB/Untitled-design-1-removebg-preview.png" alt='flexbox-sox logo' />
           </div>
           <nav className="nav">
             <Link to="/" id="nav-home">HOME</Link>
@@ -67,6 +69,8 @@ const App = () => {
               setAlert={setAlert}
               update={update}
               setUpdate={setUpdate}
+              stopInterval={stopInterval}
+              setStopInterval={setStopInterval}
             />
           </Route>
           <Route exact path="/singleProduct">
