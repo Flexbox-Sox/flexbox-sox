@@ -45,9 +45,7 @@ Authenticated Admin users are the only ones with access to the administration pa
 ## Authors 
 
 <ul>
-    <li>Annie Mahlberg || <a href="https://github.com/anniemahlberg">GitHub</a> || <a href="https://www.linkedin.com/in/anna-mahlberg/">LinkedIn</a> </li>
-    
-    <li>Sammy Ester || <a href="https://github.com/sester2">GitHub</a> || <a href="https://www.linkedin.com/in/sammy-ester-5b2543187/\">LinkedIn</a> </li>
-    
-    <li>Niko Boykin || <a href="https://github.com/Nikoboykin">GitHub</a> || <a href="https://www.linkedin.com/in/niko-boykin-a46a3a241/">LinkedIn</a> </li>
+    <li>Annie Mahlberg || <a href="https://github.com/anniemahlberg">GitHub</a> || <a href="https://www.linkedin.com/in/anna-mahlberg/">LinkedIn</a></li>
+    <li>Sammy Ester || <a href="https://github.com/sester2">GitHub</a> || <a href="https://www.linkedin.com/in/sammy-ester-5b2543187/\">LinkedIn</a></li>
+    <li>Niko Boykin || <a href="https://github.com/Nikoboykin">GitHub</a> || <a href="https://www.linkedin.com/in/niko-boykin-a46a3a241/">LinkedIn</a></li>
 </ul>
