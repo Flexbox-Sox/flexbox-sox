@@ -30,3 +30,11 @@ A user is able to navigate on the website and purchase the products even if they
 ## Shopping Cart
 
 User is able to modify the quantity of Socks in the shopping cart as well as delete socks that are unwanted before checkout if necessary. The total sum of money to be paid is also updated according to the quantity of the products in the shopping cart and is available on the checkout page. 
+
+
+
+## Admin Page
+
+Username: testadmin  Password: password
+
+Authenticated Admin users are the only ones with access to the administration page which allows them to add, edit, and delete products of their choice. They are also able to see all product info as well as user info.
