@@ -4,9 +4,6 @@
 
 ![](https://github.com/Flexbox-Sox/flexbox-sox/blob/main/flexbox-sox.gif)
 
-
-
-
 ## Technologies 
 <ul>
     <li>React</li>
@@ -17,34 +14,22 @@
     <li>HTML</li>
 </ul>
 
-
-
-
 ## User Authentication
 ![](https://github.com/Flexbox-Sox/flexbox-sox/blob/main/gifs/flexbox-sox-userlogin.gif)
 
-A user is able to navigate on the website and purchase the products even if they have no account or are not signed into one. If user decides they like the site they can create an account and have all items they previously added to their cart as a guest user and those will appear in your new user cart. After selecting the product, user has its detailed description on the Product/Price and has ability to choose the quantity of the socks they chose to be added to the shopping cart before checkout.
-
-
-
+A user is able to navigate on the website and purchase the products even if they do not have an account or they are not signed into one. If user decides they like the site, they are able to create an account and have all items they previously added to their cart as a guest user and those items will appear in their new user cart. After selecting the product, a user has its detailed description on the product/price and has the ability to choose the quantity of the socks they chose to be added to the shopping cart before checkout.
  
 ## Shopping Cart
 ![](https://github.com/Flexbox-Sox/flexbox-sox/blob/main/gifs/flexbox-sox-cart.gif)
 
-User is able to modify the quantity of Socks in the shopping cart as well as delete socks that are unwanted before checkout if necessary. The total sum of money to be paid is also updated according to the quantity of the products in the shopping cart and is available on the checkout page. 
-
-
+A user is able to modify the quantity of socks in the shopping cart as well as delete socks that are unwanted before checkout, if necessary. The total sum of money to be paid is also updated according to the quantity of the products in the shopping cart and is available on the checkout page. 
 
 ## Admin Page
 ![](https://github.com/Flexbox-Sox/flexbox-sox/blob/main/gifs/flexbox-sox-admin.gif)
 
+username: testadmin || password: password
 
-Username: testadmin || Password: password
-
-Authenticated Admin users are the only ones with access to the administration page which allows them to add, edit, and delete products of their choice. They are also able to see all product info as well as user info.
-
-
-
+Authenticated admin users are the only ones with access to the administration page which allows them to add, edit, and delete products of their choice. They are also able to see all product and user information.
 
 ## Authors 
 
