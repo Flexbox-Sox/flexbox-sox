@@ -21,4 +21,12 @@
 
 
 ## User Authentication
+
 A user is able to navigate on the website and purchase the products even if they have no account or are not signed into one. If user decides they like the site they can create an account and have all items they previously added to their cart as a guest user and those will appear in your new user cart. After selecting the product, user has its detailed description on the Product/Price and has ability to choose the quantity of the socks they chose to be added to the shopping cart before checkout.
+
+
+
+ 
+## Shopping Cart
+
+User is able to modify the quantity of Socks in the shopping cart as well as delete socks that are unwanted before checkout if necessary. The total sum of money to be paid is also updated according to the quantity of the products in the shopping cart and is available on the checkout page. 
