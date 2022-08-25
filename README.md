@@ -4,3 +4,15 @@
 
 ![](https://github.com/Flexbox-Sox/flexbox-sox/blob/main/flexbox-sox.gif)
 
+
+
+
+## Technologies 
+<ul>
+    <li>React</li>
+    <li>Express</li>
+    <li>PostgreSQL</li>
+    <li>JavaScript</li>
+    <li>CSS</li>
+    <li>HTML</li>
+</ul>
