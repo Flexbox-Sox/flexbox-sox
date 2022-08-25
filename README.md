@@ -4,3 +4,7 @@
 
 ![](https://github.com/Flexbox-Sox/flexbox-sox/blob/main/flexbox-sox.gif)
 
+
+
+
+# Technologies 
